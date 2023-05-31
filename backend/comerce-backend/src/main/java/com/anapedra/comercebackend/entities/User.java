@@ -24,16 +24,19 @@ public class User implements Serializable {
     @Column(unique = true)
     private String registrationEmail;
     private String password;
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+    private AdditionalData additionalData;
     @OneToMany(mappedBy = "client")
     private List<Order>orders=new ArrayList<>();
 
-    public User(Long id, String name, Instant momentRegistration,String mainPhone, String registrationEmail, String password) {
+    public User(Long id, String name, Instant momentRegistration,String mainPhone, String registrationEmail, String password,AdditionalData additionalData) {
         this.id = id;
         this.name = name;
         this.momentRegistration = momentRegistration;
         this.mainPhone = mainPhone;
         this.registrationEmail = registrationEmail;
         this.password = password;
+        this.additionalData=additionalData;
     }
 
     public User() {
@@ -94,6 +97,15 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+    public AdditionalData getAdditionalData() {
+        return additionalData;
+    }
+
+    public void setAdditionalData(AdditionalData additionalData) {
+        this.additionalData = additionalData;
     }
 
     public List<Order> getOrders() {
