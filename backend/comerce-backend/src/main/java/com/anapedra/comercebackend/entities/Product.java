@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -16,10 +17,10 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String shortDescription;
-    private String fullDescription;
     private Instant momentRegistration;
     private Instant momentUpdate;
+    private String shortDescription;
+    private String fullDescription;
     private Double productCost;
     private Double initialPrice;
     private String imgUrl;
@@ -28,6 +29,8 @@ public class Product implements Serializable {
     @JoinColumn(name = "product_id"),inverseJoinColumns =
     @JoinColumn(name = "category_id"))
     private Set<Category>categories=new HashSet<>();
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> items=new HashSet<>();
 
     public Product(Long id, String shortDescription, String fullDescription, Instant momentRegistration,
                    Instant momentUpdate, Double productCost, Double initialPrice, String imgUrl) {
@@ -112,6 +115,15 @@ public class Product implements Serializable {
     public Set<Category> getCategories() {
         return categories;
     }
+
+    public Set<OrderItem> getItems() {
+        return items;
+    }
+    public List<Order> getOrders(){
+        return items.stream().map(x->x.getOrder()).toList();
+    }
+
+
 
     @Override
     public boolean equals(Object o) {
