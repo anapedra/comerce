@@ -20,7 +20,7 @@ public class Order implements Serializable {
     private Long id;
     private Instant momentRegistration;
     private Instant momentUpdate;
-    private OrderStatus status;
+    private Integer status;
     @ManyToOne
     @JoinColumn(name = "client_id")
     private User client;
@@ -33,7 +33,7 @@ public class Order implements Serializable {
         this.id = id;
         this.momentRegistration = momentRegistration;
         this.momentUpdate = momentUpdate;
-        this.status = status;
+        setStatus(status);
         this.client = client;
 
     }
@@ -67,11 +67,13 @@ public class Order implements Serializable {
     }
 
     public OrderStatus getStatus() {
-        return status;
+        return OrderStatus.valueOf(status);
     }
 
     public void setStatus(OrderStatus status) {
-        this.status = status;
+        if (status != null){
+        this.status = status.getCode();
+        }
     }
 
     public User getClient() {
