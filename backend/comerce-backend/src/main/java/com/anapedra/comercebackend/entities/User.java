@@ -29,6 +29,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "client")
     private List<Order>orders=new ArrayList<>();
 
+
     public User(Long id, String name, Instant momentRegistration,String mainPhone, String registrationEmail, String password,AdditionalData additionalData) {
         this.id = id;
         this.name = name;
