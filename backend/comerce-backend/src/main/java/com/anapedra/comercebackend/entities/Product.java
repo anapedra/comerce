@@ -24,6 +24,8 @@ public class Product implements Serializable {
     private Double productCost;
     private Double initialPrice;
     private String imgUrl;
+    @OneToOne(mappedBy = "product",cascade = CascadeType.ALL)
+    private OfferProduct offerProduct;
     @ManyToMany
     @JoinTable(name = "tb_product_category",joinColumns =
     @JoinColumn(name = "product_id"),inverseJoinColumns =
