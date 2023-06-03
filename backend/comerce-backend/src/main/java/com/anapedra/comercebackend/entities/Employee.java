@@ -28,8 +28,10 @@ public class Employee extends User implements Serializable {
    private List<Absence>absences=new ArrayList<>();
    @OneToMany(mappedBy = "employee")
    private List<ExtraHour>extraHours=new ArrayList<>();
-  // private Demissaao demissaao;
- //  private Double commission; sera uma função
+   // @OneToMany(mappedBy = "purchasingAdministrator")
+  //  private List<PurchaseOrder>purchaseOrderItem=new ArrayList<>();
+   // private Demissaao demissaao;
+   // private Double commission; sera uma função
     @ManyToMany
     @JoinTable(name = "tb_employee_salesTarget",
             joinColumns = @JoinColumn(name = "employeeId"),

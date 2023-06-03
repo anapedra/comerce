@@ -23,12 +23,13 @@ public class AdditionalData  implements Serializable {
     @MapsId
     private User user;
 
-    public AdditionalData(Long id, Documents documents, PhoneList phoneList, AddressList addressList, User user) {
+
+    public AdditionalData(Long id, Documents documents, PhoneList phoneList, AddressList addressList) {
         this.id = id;
         this.documents = documents;
         this.phoneList = phoneList;
         this.addressList = addressList;
-        this.user = user;
+
     }
 
     public AdditionalData() {
@@ -66,6 +67,10 @@ public class AdditionalData  implements Serializable {
     public void setAddressList(AddressList addressList) {
         this.addressList = addressList;
     }
+
+
+
+
 
     public User getUser() {
         return user;

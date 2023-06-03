@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +21,7 @@ public class Order implements Serializable {
     private Long id;
     private Instant momentRegistration;
     private Instant momentUpdate;
+    private LocalDate dateOrder;
     private Integer status;
     @ManyToOne
     @JoinColumn(name = "seller_id")
@@ -31,12 +33,14 @@ public class Order implements Serializable {
     private Payment payment;
     @OneToMany(mappedBy = "id.order")
     private Set<OrderItem> items=new HashSet<>();
+    //TOTAL(metado)
 
 
-    public Order(Long id, Instant momentRegistration, Instant momentUpdate, OrderStatus status,Employee seller, User client) {
+    public Order(Long id, Instant momentRegistration, Instant momentUpdate,LocalDate dateOrder, OrderStatus status,Employee seller, User client) {
         this.id = id;
         this.momentRegistration = momentRegistration;
         this.momentUpdate = momentUpdate;
+        this.dateOrder=dateOrder;
         setStatus(status);
         this.seller = seller;
         this.client = client;
@@ -69,6 +73,14 @@ public class Order implements Serializable {
 
     public void setMomentUpdate(Instant momentUpdate) {
         this.momentUpdate = momentUpdate;
+    }
+
+    public LocalDate getDateOrder() {
+        return dateOrder;
+    }
+
+    public void setDateOrder(LocalDate dateOrder) {
+        this.dateOrder = dateOrder;
     }
 
     public Employee getSeller() {

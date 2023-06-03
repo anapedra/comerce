@@ -33,6 +33,10 @@ public class Product implements Serializable {
     private Set<Category>categories=new HashSet<>();
     @OneToMany(mappedBy = "id.product")
     private Set<OrderItem> items=new HashSet<>();
+    @OneToMany(mappedBy = "id.product")
+    private Set<PurchaseOrderItem>purchaseOrderItems =new HashSet<>();
+
+
 
     public Product(Long id, String shortDescription, String fullDescription, Instant momentRegistration,
                    Instant momentUpdate, Double productCost, Double initialPrice, String imgUrl) {
@@ -114,6 +118,14 @@ public class Product implements Serializable {
         this.imgUrl = imgUrl;
     }
 
+    public OfferProduct getOfferProduct() {
+        return offerProduct;
+    }
+
+    public void setOfferProduct(OfferProduct offerProduct) {
+        this.offerProduct = offerProduct;
+    }
+
     public Set<Category> getCategories() {
         return categories;
     }
@@ -121,11 +133,17 @@ public class Product implements Serializable {
     public Set<OrderItem> getItems() {
         return items;
     }
+
+    public Set<PurchaseOrderItem> getPurchaseOrderItems() {
+        return purchaseOrderItems;
+    }
+
     public List<Order> getOrders(){
         return items.stream().map(x->x.getOrder()).toList();
     }
-
-
+    public List<PurchaseOrder> getPurchaseOrders(){
+        return purchaseOrderItems.stream().map(x->x.getPurchaseOrder()).toList();
+    }
 
     @Override
     public boolean equals(Object o) {
