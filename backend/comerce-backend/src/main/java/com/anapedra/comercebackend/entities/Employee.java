@@ -1,5 +1,6 @@
 package com.anapedra.comercebackend.entities;
 
+import com.anapedra.comercebackend.entities.enums.StatusSalesTarget;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -22,6 +23,7 @@ public class Employee extends User implements Serializable {
    private Shift shift;
    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
    private LocalDate hiringDate;
+   private Integer statusSalesTarget;
    @OneToMany(mappedBy = "seller")
    private List<Order>orders=new ArrayList<>();
    @OneToMany(mappedBy = "employee")
@@ -40,7 +42,7 @@ public class Employee extends User implements Serializable {
 
 
 
-    public Employee(Long id, String name, Instant momentRegistration, String mainPhone, String registrationEmail, String password,
+    public Employee(Long id, String name, Instant momentRegistration, StatusSalesTarget statusSalesTarget,String mainPhone, String registrationEmail, String password,
                     AdditionalData additionalData, String descriptionFunction, Double salary, Shift shift,LocalDate hiringDate) {
         super(id, name, momentRegistration, mainPhone, registrationEmail, password, additionalData);
         this.descriptionFunction = descriptionFunction;
@@ -53,6 +55,19 @@ public class Employee extends User implements Serializable {
     public Employee() {
 
     }
+    /*
+    public double getCommission(){
+        double commissionCalculation = 0.0;
+        for (Order order : orders) {
+            commissionCalculation += order.getTotal();
+        }
+        if (commissionCalculation >=  )
+        return  commissionCalculation*=0.2;
+    }
+
+
+     */
+
 
     public String getDescriptionFunction() {
         return descriptionFunction;
@@ -81,6 +96,17 @@ public class Employee extends User implements Serializable {
     public void setHiringDate(LocalDate hiringDate) {
         this.hiringDate = hiringDate;
     }
+
+    public StatusSalesTarget getStatusSalesTarget () {
+        return StatusSalesTarget.valueOf(statusSalesTarget);
+    }
+
+    public void setStatusSalesTarget(StatusSalesTarget statusSalesTarget) {
+        if (statusSalesTarget  != null){
+            this.statusSalesTarget = statusSalesTarget.getCode();
+        }
+    }
+
 
     public void setShift(Shift shift) {
         this.shift = shift;
