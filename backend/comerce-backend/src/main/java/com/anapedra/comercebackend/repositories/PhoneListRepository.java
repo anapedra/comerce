@@ -1,7 +1,7 @@
 package com.anapedra.comercebackend.repositories;
 
-import com.anapedra.comercebackend.entities.PhoneList;
+import com.anapedra.comercebackend.entities.Phone;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PhoneListRepository extends JpaRepository<PhoneList,Long> {
+public interface PhoneListRepository extends JpaRepository<Phone,Long> {
 }

@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,6 +20,7 @@ public class User implements Serializable {
     private Instant momentRegistration;
     private Instant momentUpdate;
     private String mainPhone;
+    private String cpf;
     @Column(unique = true)
     private String registrationEmail;
     private String password;
@@ -29,13 +29,12 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "client")
     private List<Order>orders=new ArrayList<>();
 
-
-
-    public User(Long id, String name, Instant momentRegistration,String mainPhone, String registrationEmail, String password,AdditionalData additionalData) {
+    public User(Long id, String name, Instant momentRegistration,String mainPhone,String cpf, String registrationEmail, String password,AdditionalData additionalData) {
         this.id = id;
         this.name = name;
         this.momentRegistration = momentRegistration;
         this.mainPhone = mainPhone;
+        this.cpf=cpf;
         this.registrationEmail = registrationEmail;
         this.password = password;
         this.additionalData=additionalData;
@@ -85,6 +84,14 @@ public class User implements Serializable {
         this.mainPhone = mainPhone;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
     public String getRegistrationEmail() {
         return registrationEmail;
     }
@@ -96,6 +103,8 @@ public class User implements Serializable {
     public String getPassword() {
         return password;
     }
+
+
 
     public void setPassword(String password) {
         this.password = password;

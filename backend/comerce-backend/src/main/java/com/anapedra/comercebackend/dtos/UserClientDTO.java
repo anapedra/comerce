@@ -1,6 +1,5 @@
 package com.anapedra.comercebackend.dtos;
 
-import com.anapedra.comercebackend.entities.AdditionalData;
 import com.anapedra.comercebackend.entities.Employee;
 import com.anapedra.comercebackend.entities.Order;
 
@@ -17,6 +16,7 @@ public class UserClientDTO implements Serializable {
     private Instant momentRegistration;
     private Instant momentUpdate;
     private String mainPhone;
+    private String cpf;
     private String registrationEmail;
     private AdditionalDataDTO additionalData;
     private List<OrderDTO> orders=new ArrayList<>();
@@ -26,13 +26,14 @@ public class UserClientDTO implements Serializable {
 
     }
 
-    public UserClientDTO(Long id, String name, Instant momentRegistration, Instant momentUpdate,
-                         String mainPhone, String registrationEmail, AdditionalDataDTO additionalData) {
+    public UserClientDTO(Long id, String name, Instant momentRegistration, Instant momentUpdate, String mainPhone,
+                         String cpf, String registrationEmail, AdditionalDataDTO additionalData) {
         this.id = id;
         this.name = name;
         this.momentRegistration = momentRegistration;
         this.momentUpdate = momentUpdate;
         this.mainPhone = mainPhone;
+        this.cpf = cpf;
         this.registrationEmail = registrationEmail;
         this.additionalData = additionalData;
     }
@@ -43,11 +44,13 @@ public class UserClientDTO implements Serializable {
       momentRegistration=entity.getMomentRegistration();
       momentUpdate=entity.getMomentUpdate();
       mainPhone=entity.getMainPhone();
+      cpf=entity.getCpf();
       registrationEmail=entity.getRegistrationEmail();
-      additionalData=new AdditionalDataDTO(entity.getAdditionalData().getId(),
-              entity.getAdditionalData().getDocuments(),
-              entity.getAdditionalData().getPhoneList(),
-              entity.getAdditionalData().getAddressList());
+      additionalData=new AdditionalDataDTO(
+              entity.getAdditionalData().getId(),
+              entity.getAdditionalData().getAddresses(),
+              entity.getAdditionalData().getEmails(),
+              entity.getAdditionalData().getPhones());
     }
 
     public UserClientDTO(Employee entity, List<Order> orders){
@@ -95,6 +98,14 @@ public class UserClientDTO implements Serializable {
 
     public void setMainPhone(String mainPhone) {
         this.mainPhone = mainPhone;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public String getRegistrationEmail() {

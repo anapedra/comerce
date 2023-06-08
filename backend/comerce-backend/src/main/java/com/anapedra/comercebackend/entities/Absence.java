@@ -1,5 +1,6 @@
 package com.anapedra.comercebackend.entities;
 
+import com.anapedra.comercebackend.entities.enums.OrderStatus;
 import com.anapedra.comercebackend.entities.enums.TypeAbsence;
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -16,19 +17,31 @@ public class Absence implements Serializable {
     private Long id;
     private LocalDate dateAbsence;
     private String description;
+    private Integer absence;
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    public Absence(Long id, LocalDate dateAbsence, String description, Employee employee) {
+    public Absence(Long id, LocalDate dateAbsence, String description, TypeAbsence absence, Employee employee){
         this.id = id;
         this.dateAbsence = dateAbsence;
         this.description = description;
+        setTypeAbsence(absence);
         this.employee = employee;
     }
 
     public Absence() {
 
+    }
+
+    public TypeAbsence geTypeAbsence() {
+        return TypeAbsence.valueOf(absence);
+    }
+
+    public void setTypeAbsence(TypeAbsence typeAbsence) {
+        if (absence != null){
+            this.absence = typeAbsence.getCode();
+        }
     }
 
     public Long getId() {
@@ -62,7 +75,6 @@ public class Absence implements Serializable {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
-
 
     @Override
     public boolean equals(Object o) {

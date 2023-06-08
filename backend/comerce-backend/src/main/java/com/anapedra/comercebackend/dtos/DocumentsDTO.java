@@ -1,39 +1,41 @@
-package com.anapedra.comercebackend.entities;
+package com.anapedra.comercebackend.dtos;
 /*
-import jakarta.persistence.*;
-
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-@Entity
-@Table(name = "tb_documents")
-public class Documents implements Serializable {
-    private static final long serialVersionUID=1L;
+public class DocumentsDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String cpfOrCnpj;
     private String rg;
     private Instant momentRegistration;
     private Instant momentUpdate;
-    @OneToOne
-    @MapsId
-    private User user;
+    private Long userId;
 
-    public Documents(Long id, String cpfOrCnpj, String rg, Instant momentRegistration, Instant momentUpdate, User user) {
+    public DocumentsDTO() {
+
+    }
+
+    public DocumentsDTO(Long id, String cpfOrCnpj, String rg, Instant momentRegistration,
+                        Instant momentUpdate, Long userId) {
         this.id = id;
         this.cpfOrCnpj = cpfOrCnpj;
         this.rg = rg;
         this.momentRegistration = momentRegistration;
         this.momentUpdate = momentUpdate;
-        this.user=user;
+        this.userId=userId;
+    }
+    public DocumentsDTO(Documents entitys){
+        id= entitys.getId();
+        cpfOrCnpj= entitys.getCpfOrCnpj();
+        rg= entitys.getRg();
+        momentRegistration=entitys.getMomentRegistration();
+        momentUpdate=entitys.getMomentUpdate();
+        userId=entitys.getUser().getId();
+
     }
 
-    public Documents() {
 
-    }
 
     public Long getId() {
         return id;
@@ -75,28 +77,26 @@ public class Documents implements Serializable {
         this.momentUpdate = momentUpdate;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Documents)) return false;
-        Documents documents = (Documents) o;
-        return Objects.equals(id, documents.id);
+        if (!(o instanceof DocumentsDTO)) return false;
+        DocumentsDTO that = (DocumentsDTO) o;
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id);
     }
-
-
 }
 
  */

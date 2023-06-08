@@ -37,18 +37,19 @@ public class ComerceBackendApplication implements CommandLineRunner {
         List<Product> products = new ArrayList<>();
         List<Order> orders = new ArrayList<>();
         List<OrderItem>orderItems=new ArrayList<>();
-
-        Employee sl1=new Employee(1L,null,"Pedro",Instant.parse("2017-09-25T08:00:00Z"),"257869321","pedro@gmaol.com","123",null,10.000,LocalDate.now(),null);
-        Employee sl2=new Employee(2L,null,"Maria Satana",Instant.parse("2017-09-25T08:00:00Z"),"257869321","maria@gmaol.com","123",null,8.000,LocalDate.now(),null);
-        Employee sl3=new Employee(3L,null,"Sanmaria",Instant.parse("2017-09-25T08:00:00Z"),"257869321","samaria@gmaol.com","123",null,5.000,LocalDate.now(),null);
-        Employee sl4=new Employee(4L,null,"Luiza",Instant.parse("2017-09-25T08:00:00Z"),"257869321","luiza@gmaol.com","123",null,5.000,LocalDate.now(),null);
-        ArrayList sellers = new ArrayList(Arrays.asList(sl1, sl2, sl3, sl4));
+        Employee sl1=new Employee(1L,"Luiza",Instant.parse("2017-09-25T08:00:00Z"),"123655478","123655478","luiza@gmail.com","123654",null,15.000,null,LocalDate.now(),null);
+        Employee sl2=new Employee(2L,"Mara",Instant.parse("2017-09-25T08:00:00Z"),"12365478","1237655478","mara@gmail.com","123654",null,15.000,null,LocalDate.now(),null);
+        Employee sl3=new Employee(3L,"Lucas",Instant.parse("2017-09-25T08:00:00Z"),"123655478","126365478","lucas@gmail.com","123654",null,15.000,null,LocalDate.now(),null);
+        Employee sl4=new Employee(4L,"Marta",Instant.parse("2017-09-25T08:00:00Z"),"123655478","123865478","maria@gmail.com","123654",null,15.000,null,LocalDate.now(),null);
+        Employee sl5=new Employee(5L,"Luiz",Instant.parse("2017-09-25T08:00:00Z"),"123655478","1236105478","marta@gmail.com","123654",null,15.000,null,LocalDate.now(),null);
+        Employee sl6=new Employee(6L,"Marariele",Instant.parse("2017-09-25T08:00:00Z"),"123655478","1562365478","mariele@gmail.com","123654",null,15.000,null,LocalDate.now(),null);
+        ArrayList sellers = new ArrayList(Arrays.asList(sl1, sl2, sl3, sl4,sl5,sl6));
         employeeRepository.saveAll(sellers);
 
-        User cl1=new User(5L,"Ana",Instant.parse("2017-09-25T08:00:00Z"),"257869321","ana@gmaol.com","123",null);
-        User cl2=new User(6L,"Mari",Instant.parse("2017-09-25T08:00:00Z"),"257869321","mari@gmaol.com","123",null);
-        User cl3=new User(7L,"Sandra",Instant.parse("2017-09-25T08:00:00Z"),"257869321","sadra@gmaol.com","123",null);
-        User cl4=new User(8L,"Helena",Instant.parse("2017-09-25T08:00:00Z"),"257869321","helena@gmaol.com","123",null);
+        User cl1=new User(7L,"Ana",Instant.parse("2017-09-25T08:00:00Z"),"123655478","2527869321","ana@gmaol.com","123",null);
+        User cl2=new User(8L,"Mari",Instant.parse("2017-09-25T08:00:00Z"),"45698712","25786938921","mapris@gmaol.com","123",null);
+        User cl3=new User(9L,"Sandra",Instant.parse("2017-09-25T08:00:00Z"),"78965421","257869321","saidra@gmaol.com","123",null);
+        User cl4=new User(10L,"Helena",Instant.parse("2017-09-25T08:00:00Z"),"1236547899","257869332421","helena@gmaol.com","123",null);
         List<User> clients = new ArrayList<>(Arrays.asList(cl1, cl2, cl3, cl4));
         userRepository.saveAll(clients);
 

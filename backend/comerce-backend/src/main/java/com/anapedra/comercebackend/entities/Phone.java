@@ -1,6 +1,5 @@
 package com.anapedra.comercebackend.entities;
 
-import com.anapedra.comercebackend.entities.enums.TypeAddress;
 import com.anapedra.comercebackend.entities.enums.TypePhone;
 import jakarta.persistence.*;
 
@@ -9,7 +8,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "tb_phone_list")
-public class PhoneList implements Serializable {
+public class Phone implements Serializable {
     private static final long serialVersionUID=1L;
 
     @Id
@@ -18,12 +17,12 @@ public class PhoneList implements Serializable {
     private String phoneNumber;
     private Integer typePhone;
     private String timeAvailability;
-    @OneToOne
-    @MapsId
+    @ManyToOne
+    @JoinColumn(name = "additionalDataId")
     private AdditionalData additionalData;
 
 
-    public PhoneList(Long id, String phoneNumber, TypePhone typePhone, String timeAvailability, AdditionalData additionalData) {
+    public Phone(Long id, String phoneNumber, TypePhone typePhone, String timeAvailability, AdditionalData additionalData) {
         this.id = id;
         this.phoneNumber = phoneNumber;
         setTypePhone(typePhone);
@@ -31,7 +30,7 @@ public class PhoneList implements Serializable {
         this.additionalData = additionalData;
     }
 
-    public PhoneList() {
+    public Phone() {
 
     }
 
@@ -80,8 +79,8 @@ public class PhoneList implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PhoneList)) return false;
-        PhoneList phoneList = (PhoneList) o;
+        if (!(o instanceof Phone)) return false;
+        Phone phoneList = (Phone) o;
         return Objects.equals(id, phoneList.id);
     }
 

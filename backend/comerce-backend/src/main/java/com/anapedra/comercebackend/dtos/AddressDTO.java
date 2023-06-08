@@ -1,20 +1,14 @@
-package com.anapedra.comercebackend.entities;
+package com.anapedra.comercebackend.dtos;
 
+import com.anapedra.comercebackend.entities.Address;
 import com.anapedra.comercebackend.entities.enums.TypeAddress;
-import jakarta.persistence.*;
 
-import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-@Table(name = "tb_address_list")
-public class AddressList implements Serializable {
-    private static final long serialVersionUID=1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class AddressDTO {
     private Long id;
-    private Integer typeAddress;
+    private String addressPersonName;
+    private TypeAddress typeAddress;
     private String road;
     private Integer number;
     private String cep;
@@ -22,14 +16,18 @@ public class AddressList implements Serializable {
     private String city;
     private String state;
     private String addressComplement;
-    @OneToOne
-    @MapsId
-    private AdditionalData additionalData;
+    private Long additionalData;
 
-    public AddressList(Long id, TypeAddress typeAddress, String road, Integer number, String cep, String neighborhood,
-                       String city, String state, String addressComplement, AdditionalData additionalData) {
+
+    public AddressDTO() {
+
+    }
+
+    public AddressDTO(Long id, String addressPersonName, TypeAddress typeAddress, String road, Integer number, String cep, String neighborhood,
+                      String city, String state, String addressComplement, Long additionalData) {
         this.id = id;
-        setTypeAddress(typeAddress);
+        this.addressPersonName = addressPersonName;
+        this.typeAddress = typeAddress;
         this.road = road;
         this.number = number;
         this.cep = cep;
@@ -40,7 +38,17 @@ public class AddressList implements Serializable {
         this.additionalData = additionalData;
     }
 
-    public AddressList() {
+    public AddressDTO(Address entity) {
+      id= entity.getId();
+      addressPersonName=entity.getAdditionalData().getUser().getName();
+      typeAddress=entity.getTypeAddress();
+      road=entity.getRoad();
+      number=entity.getNumber();
+      cep=entity.getCep();
+      neighborhood=entity.getNeighborhood();
+      city=entity.getCity();
+      state=entity.getState();
+      addressComplement=entity.getAddressComplement();
 
     }
 
@@ -52,15 +60,20 @@ public class AddressList implements Serializable {
         this.id = id;
     }
 
+    public String getAddressPersonName() {
+        return addressPersonName;
+    }
 
-    public TypeAddress getTypeAddress(){
-        return TypeAddress.valueOf(typeAddress);
+    public void setAddressPersonName(String addressPersonName) {
+        this.addressPersonName = addressPersonName;
+    }
+
+    public TypeAddress getTypeAddress() {
+        return typeAddress;
     }
 
     public void setTypeAddress(TypeAddress typeAddress) {
-        if (typeAddress != null){
-            this.typeAddress = typeAddress.getCode();
-        }
+        this.typeAddress = typeAddress;
     }
 
     public String getRoad() {
@@ -119,19 +132,19 @@ public class AddressList implements Serializable {
         this.addressComplement = addressComplement;
     }
 
-    public AdditionalData getAdditionalData() {
+    public Long getAdditionalData() {
         return additionalData;
     }
 
-    public void setAdditionalData(AdditionalData additionalData) {
+    public void setAdditionalData(Long additionalData) {
         this.additionalData = additionalData;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof AddressList)) return false;
-        AddressList that = (AddressList) o;
+        if (!(o instanceof AddressDTO)) return false;
+        AddressDTO that = (AddressDTO) o;
         return Objects.equals(id, that.id);
     }
 

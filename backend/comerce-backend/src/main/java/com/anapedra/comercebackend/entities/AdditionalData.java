@@ -3,6 +3,8 @@ package com.anapedra.comercebackend.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -13,23 +15,19 @@ public class AdditionalData  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne(mappedBy = "additionalData",cascade = CascadeType.ALL)
-    private Documents documents;
-    @OneToOne(mappedBy = "additionalData",cascade = CascadeType.ALL)
-    private PhoneList phoneList;
-    @OneToOne(mappedBy = "additionalData",cascade = CascadeType.ALL)
-    private AddressList addressList;
     @OneToOne
     @MapsId
     private User user;
+    @OneToMany(mappedBy = "additionalData")
+    private List<Phone> phones=new ArrayList<>();
+    @OneToMany(mappedBy = "additionalData")
+    private List<Address>addresses=new ArrayList<>();
+    @OneToMany(mappedBy = "additionalData")
+    private List<Email> emails=new ArrayList<>();
 
-
-    public AdditionalData(Long id, Documents documents, PhoneList phoneList, AddressList addressList) {
+    public AdditionalData(Long id, User user) {
         this.id = id;
-        this.documents = documents;
-        this.phoneList = phoneList;
-        this.addressList = addressList;
-
+        this.user = user;
     }
 
     public AdditionalData() {
@@ -44,36 +42,20 @@ public class AdditionalData  implements Serializable {
         this.id = id;
     }
 
-    public Documents getDocuments() {
-        return documents;
-    }
-
-    public void setDocuments(Documents documents) {
-        this.documents = documents;
-    }
-
-    public PhoneList getPhoneList() {
-        return phoneList;
-    }
-
-    public void setPhoneList(PhoneList phoneList) {
-        this.phoneList = phoneList;
-    }
-
-    public AddressList getAddressList() {
-        return addressList;
-    }
-
-    public void setAddressList(AddressList addressList) {
-        this.addressList = addressList;
-    }
-
-
-
-
-
     public User getUser() {
         return user;
+    }
+
+    public List<Phone> getPhones() {
+        return phones;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public List<Email> getEmails() {
+        return emails;
     }
 
     public void setUser(User user) {

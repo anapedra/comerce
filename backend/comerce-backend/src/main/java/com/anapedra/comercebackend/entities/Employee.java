@@ -40,19 +40,20 @@ public class Employee extends User implements Serializable {
     @OneToMany(mappedBy = "id.employee")
     private Set<EmployeeExtraHour> extraHours =new HashSet<>();
 
-    public Employee(Long id,Department departament,String name, Instant momentRegistration, String mainPhone, String registrationEmail, String password,
-                    AdditionalData additionalData,Double salary,LocalDate hiringDate,SalesTarget salesTarget) {
-        super(id, name, momentRegistration, mainPhone, registrationEmail, password, additionalData);
-        this.department=departament;
+    public Employee(Long id, String name, Instant momentRegistration, String mainPhone, String cpf, String registrationEmail, String password, AdditionalData additionalData, Double salary,
+                    Department department, LocalDate hiringDate, SalesTarget salesTarget) {
+        super(id, name, momentRegistration, mainPhone, cpf, registrationEmail, password, additionalData);
         this.salary = salary;
+        this.department = department;
         this.hiringDate = hiringDate;
-        this.salesTarget=salesTarget;
-
+        this.salesTarget = salesTarget;
     }
 
     public Employee() {
 
     }
+
+
 
     public double getCommission(){
         double sumOrder = 0.0;
