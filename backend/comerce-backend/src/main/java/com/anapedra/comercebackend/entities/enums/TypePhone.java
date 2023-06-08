@@ -1,6 +1,10 @@
 package com.anapedra.comercebackend.entities.enums;
 
 public enum TypePhone {
+    /*
+    Attention: When inserting another enumerator, sequence the integers
+    in the proposed order to avoid a possible collapse of subsequent codes.
+     */
 
     HPME_PHONE(1),
     WORK_PHONE(2),

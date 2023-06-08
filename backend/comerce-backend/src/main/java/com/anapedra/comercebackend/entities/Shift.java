@@ -19,7 +19,7 @@ public class Shift implements Serializable {
     private String shiftStartTime;
     private String shiftEndTime;
     @OneToMany(mappedBy = "shift")
-    private List<Employee>employees=new ArrayList<>();
+    private List<Department>departaments=new ArrayList<>();
 
     public Shift(Long id, String description, String shiftStartTime, String shiftEndTime) {
         this.id = id;
@@ -63,10 +63,9 @@ public class Shift implements Serializable {
         this.shiftEndTime = shiftEndTime;
     }
 
-    public List<Employee> getEmployees() {
-        return employees;
+    public List<Department> getDepartaments() {
+        return departaments;
     }
-
 
     @Override
     public boolean equals(Object o) {

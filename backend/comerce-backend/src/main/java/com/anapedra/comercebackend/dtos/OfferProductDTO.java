@@ -1,46 +1,47 @@
-package com.anapedra.comercebackend.entities;
+package com.anapedra.comercebackend.dtos;
 
-import jakarta.persistence.*;
-
+import com.anapedra.comercebackend.entities.OfferProduct;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-@Entity
-@Table(name = "tb_offer_product")
-public class OfferProduct implements Serializable {
+public class OfferProductDTO implements Serializable {
     private static final long serialVersionUID=1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String offerDescription;
     private LocalDate startDate;
     private LocalDate endDate;
+    private String productShotDescription;
     private Double originalPrice;
     private Double discountOffer;
-    @OneToOne
-    @MapsId
-    private Product product;
+    private Double offerPrice;
 
-    public OfferProduct() {
+
+    public OfferProductDTO() {
 
     }
 
-    public OfferProduct(Long id, String offerDescription, LocalDate startDate, LocalDate endDate,
-                        Double originalPrice, Double discountOffer, Product product) {
+    public OfferProductDTO(Long id, String offerDescription, LocalDate startDate, LocalDate endDate, String productShotDescription,
+                           Double originalPrice, Double discountOffer, Double offerPrice) {
         this.id = id;
         this.offerDescription = offerDescription;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.productShotDescription = productShotDescription;
         this.originalPrice = originalPrice;
         this.discountOffer = discountOffer;
-        this.product = product;
+        this.offerPrice = offerPrice;
     }
 
-    public Double getOfferPrice(){
-       return product.getInitialPrice()-(product.getInitialPrice()*discountOffer);
+    public OfferProductDTO(OfferProduct entity){
+        id=entity.getId();
+        offerDescription= entity.getOfferDescription();
+        startDate=entity.getStartDate();
+        endDate=entity.getEndDate();
+        productShotDescription= entity.getProduct().getShortDescription();
+        originalPrice=entity.getProduct().getInitialPrice();
+        discountOffer=entity.getDiscountOffer();
+        offerPrice=entity.getOfferPrice();
     }
 
     public Long getId() {
@@ -75,6 +76,14 @@ public class OfferProduct implements Serializable {
         this.endDate = endDate;
     }
 
+    public String getProductShotDescription() {
+        return productShotDescription;
+    }
+
+    public void setProductShotDescription(String productShotDescription) {
+        this.productShotDescription = productShotDescription;
+    }
+
     public Double getOriginalPrice() {
         return originalPrice;
     }
@@ -91,24 +100,26 @@ public class OfferProduct implements Serializable {
         this.discountOffer = discountOffer;
     }
 
-    public Product getProduct() {
-        return product;
+    public Double getOfferPrice() {
+        return offerPrice;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setOfferPrice(Double offerPrice) {
+        this.offerPrice = offerPrice;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof OfferProduct)) return false;
-        OfferProduct that = (OfferProduct) o;
-        return Objects.equals(id, that.id);
+        if (!(o instanceof OfferProductDTO)) return false;
+        OfferProductDTO that = (OfferProductDTO) o;
+        return Objects.equals(getId(), that.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(getId());
     }
+
+
 }

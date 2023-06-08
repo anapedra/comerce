@@ -5,9 +5,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_sales_target")
@@ -20,15 +18,15 @@ public class SalesTarget implements Serializable {
     private LocalDate startDate;
     private LocalDate endDate;
     private Double valueSalesTargetStatus;
-    @ManyToMany
-    private Set<Employee> employees=new HashSet<>();
+    @OneToMany(mappedBy = "salesTarget")
+    private List<Employee> seller =new ArrayList<>();
 
     public SalesTarget(Long id,SalesTargetStatus salesTargetStatus ,LocalDate startDate, LocalDate endDate, Double valueSalesTargetStatus) {
         this.id = id;
         setSalesTargetStatus(salesTargetStatus);
         this.startDate = startDate;
         this.endDate = endDate;
-        this.valueSalesTargetStatus = valueSalesTargetStatus;
+        setSalesTargetStatus(salesTargetStatus);
     }
 
     public SalesTarget() {
@@ -76,8 +74,8 @@ public class SalesTarget implements Serializable {
         this.valueSalesTargetStatus = valueSalesTargetStatus;
     }
 
-    public Set<Employee> getEmployees() {
-        return employees;
+    public List<Employee> getSeller() {
+        return seller;
     }
 
     @Override

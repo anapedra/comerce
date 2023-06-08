@@ -1,6 +1,10 @@
 package com.anapedra.comercebackend.entities.enums;
 
 public enum TypeFormPayment {
+    /*
+      Attention: When inserting another enumerator, sequence the integers
+      in the proposed order to avoid a possible collapse of subsequent codes.
+         */
 
     PIX(1),
     DEBIT_CARD(2),

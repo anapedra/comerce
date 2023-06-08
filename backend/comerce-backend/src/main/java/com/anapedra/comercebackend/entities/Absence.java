@@ -15,16 +15,14 @@ public class Absence implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate dateAbsence;
-    private Integer typeAbsence;
     private String description;
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    public Absence(Long id, LocalDate dateAbsence, TypeAbsence typeAbsence, String description, Employee employee) {
+    public Absence(Long id, LocalDate dateAbsence, String description, Employee employee) {
         this.id = id;
         this.dateAbsence = dateAbsence;
-        setTypeAbsence(typeAbsence);
         this.description = description;
         this.employee = employee;
     }
@@ -48,15 +46,7 @@ public class Absence implements Serializable {
     public void setDateAbsence(LocalDate dateAbsence) {
         this.dateAbsence = dateAbsence;
     }
-    public TypeAbsence getTypeAbsence() {
-        return TypeAbsence.valueOf(typeAbsence);
-    }
 
-    public void setTypeAbsence(TypeAbsence typeAbsence) {
-        if (typeAbsence != null){
-            this.typeAbsence = typeAbsence.getCode();
-        }
-    }
     public String getDescription() {
         return description;
     }
@@ -72,6 +62,7 @@ public class Absence implements Serializable {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
+
 
     @Override
     public boolean equals(Object o) {

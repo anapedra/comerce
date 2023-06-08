@@ -1,6 +1,12 @@
 package com.anapedra.comercebackend.entities.enums;
 
 public enum OrderStatus {
+
+    /*
+    Attention: When inserting another enumerator, sequence the integers
+    in the proposed order to avoid a possible collapse of subsequent codes.
+     */
+
     WAITING_PAYMENT(1),
     PAID(2),
     SHIPPED(3),
@@ -23,8 +29,5 @@ public enum OrderStatus {
        }
        throw new IllegalArgumentException("Invalid code!");
     }
-
-
-
 
 }

@@ -2,6 +2,11 @@ package com.anapedra.comercebackend.entities.enums;
 
 public enum TypeAddress {
 
+    /*
+    Attention: When inserting another enumerator, sequence the integers
+    in the proposed order to avoid a possible collapse of subsequent codes.
+     */
+
     DELIVERY_ADDRESS(1),
     HOME_ADDRESS(2),
     BELLING_ADDRESS(3),

@@ -1,11 +1,15 @@
 package com.anapedra.comercebackend.entities;
 
+import com.anapedra.comercebackend.entities.enums.ExtraHourStatus;
+import com.anapedra.comercebackend.entities.enums.TypeAbsence;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_employee")
@@ -15,6 +19,9 @@ public class ExtraHour  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private final Double PERCENTAGE_DAYTIME_OVERTIME=0.5;
+    private final Double PERCENTAGE_NIGHT_OVERTIME_OR_SUNDAY_HOLIDAYS=1.0;
+    private Integer extraHourStatus;
     private String descriptionExtraHoursByDay;
     private Double quantityExtraHoursByDay;
     private LocalDate dateExtraHours;
@@ -22,11 +29,13 @@ public class ExtraHour  implements Serializable {
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
-    //calculos de horas extras(metodos)
+    @OneToMany(mappedBy = "id.extraHour")
+    private Set<EmployeeExtraHour> extraHours =new HashSet<>();
 
-    public ExtraHour(Long id, String descriptionExtraHoursByDay, Double quantityExtraHoursByDay,
+    public ExtraHour(Long id,ExtraHourStatus extraHourStatus, String descriptionExtraHoursByDay, Double quantityExtraHoursByDay,
                      LocalDate dateExtraHours, boolean nightOvertime, Employee employee) {
         this.id = id;
+        setExtraHourStatus(extraHourStatus);
         this.descriptionExtraHoursByDay = descriptionExtraHoursByDay;
         this.quantityExtraHoursByDay = quantityExtraHoursByDay;
         this.dateExtraHours = dateExtraHours;
@@ -36,6 +45,25 @@ public class ExtraHour  implements Serializable {
 
     public ExtraHour() {
 
+    }
+
+    public double getTotalExtraHour(){
+        double soma = 0.0;
+        for (EmployeeExtraHour extraHour : extraHours) {
+           soma += extraHour.getEndExtraTimeDay() ;
+        }
+        return soma;
+    }
+
+
+    public ExtraHourStatus getExtraHourStatus() {
+        return ExtraHourStatus.valueOf(extraHourStatus);
+    }
+
+    public void setExtraHourStatus(ExtraHourStatus extraHourStatus) {
+        if (extraHourStatus != null){
+            this.extraHourStatus = extraHourStatus.getCode();
+        }
     }
 
     public Long getId() {
@@ -86,6 +114,13 @@ public class ExtraHour  implements Serializable {
         this.employee = employee;
     }
 
+    public Set<EmployeeExtraHour> getExtraHours() {
+        return extraHours;
+    }
+
+    public List<Employee> getProducts(){
+        return extraHours.stream().map(x->x.getEmployee()).toList();
+    }
 
     @Override
     public boolean equals(Object o) {

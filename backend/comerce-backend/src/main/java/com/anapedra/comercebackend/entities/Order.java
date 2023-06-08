@@ -58,6 +58,13 @@ public class Order implements Serializable {
         }
         return soma;
     }
+    public int getQuantityProduct(){
+        int soma = 0;
+        for (OrderItem orderItem : items) {
+            soma += orderItem.getQuantity();
+        }
+        return soma;
+    }
 
     public Long getId() {
         return id;

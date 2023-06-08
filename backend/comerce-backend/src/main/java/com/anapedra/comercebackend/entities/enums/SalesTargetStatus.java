@@ -1,6 +1,12 @@
 package com.anapedra.comercebackend.entities.enums;
 
 public enum SalesTargetStatus {
+
+    /*
+    Attention: When inserting another enumerator, sequence the integers
+    in the proposed order to avoid a possible collapse of subsequent codes.
+     */
+
     SALES_TARGET(1),
     SUPER_SALES_TARGET(2);
 

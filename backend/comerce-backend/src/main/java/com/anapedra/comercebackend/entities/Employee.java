@@ -1,81 +1,90 @@
 package com.anapedra.comercebackend.entities;
 
-import com.anapedra.comercebackend.entities.enums.StatusSalesTarget;
+import com.anapedra.comercebackend.entities.enums.SalesTargetStatus;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+
+import static com.anapedra.comercebackend.entities.enums.TypeAbsence.UNJUSTIFIED;
 
 @Entity
 @Table(name = "tb_employee")
 public class Employee extends User implements Serializable {
     private static final long serialVersionUID=1L;
 
-   private String descriptionFunction;
+
    private Double salary;
+   private final Double SIMPLE_COMMISSION_PERCENTAGE=0.02; // Verificar se uma constante nesse casso é o mais interessante!
+    private final Double SUPER_COMMISSION_PERCENTAGE=0.03;
+
    @ManyToOne
-   @JoinColumn(name = "shift_id")
-   private Shift shift;
+   @JoinColumn(name = "departmentId")
+   private Department department;
+
    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
    private LocalDate hiringDate;
-   private Integer statusSalesTarget;
+
+   @ManyToOne
+   @JoinColumn(name = "salesTargetId")
+   private SalesTarget salesTarget;
+
    @OneToMany(mappedBy = "seller")
    private List<Order>orders=new ArrayList<>();
+
    @OneToMany(mappedBy = "employee")
    private List<Absence>absences=new ArrayList<>();
-   @OneToMany(mappedBy = "employee")
-   private List<ExtraHour>extraHours=new ArrayList<>();
-   // @OneToMany(mappedBy = "purchasingAdministrator")
-  //  private List<PurchaseOrder>purchaseOrderItem=new ArrayList<>();
-   // private Demissaao demissaao;
-   // private Double commission; sera uma função
-    @ManyToMany
-    @JoinTable(name = "tb_employee_salesTarget",
-            joinColumns = @JoinColumn(name = "employeeId"),
-            inverseJoinColumns = @JoinColumn(name = "salesTargetId"))
-   private Set<SalesTarget> salesTarget=new HashSet<>();//metas de vendas
 
+    @OneToMany(mappedBy = "id.employee")
+    private Set<EmployeeExtraHour> extraHours =new HashSet<>();
 
-
-    public Employee(Long id, String name, Instant momentRegistration, StatusSalesTarget statusSalesTarget,String mainPhone, String registrationEmail, String password,
-                    AdditionalData additionalData, String descriptionFunction, Double salary, Shift shift,LocalDate hiringDate) {
+    public Employee(Long id,Department departament,String name, Instant momentRegistration, String mainPhone, String registrationEmail, String password,
+                    AdditionalData additionalData,Double salary,LocalDate hiringDate,SalesTarget salesTarget) {
         super(id, name, momentRegistration, mainPhone, registrationEmail, password, additionalData);
-        this.descriptionFunction = descriptionFunction;
+        this.department=departament;
         this.salary = salary;
-        this.shift = shift;
         this.hiringDate = hiringDate;
+        this.salesTarget=salesTarget;
 
     }
 
     public Employee() {
 
     }
-    /*
+
     public double getCommission(){
-        double commissionCalculation = 0.0;
+        double sumOrder = 0.0;
+        double commission =0.0;
         for (Order order : orders) {
-            commissionCalculation += order.getTotal();
+            sumOrder += order.getTotal();
         }
-        if (commissionCalculation >=  )
-        return  commissionCalculation*=0.2;
+        if (sumOrder >  salesTarget.getValueSalesTargetStatus() && sumOrder < salesTarget.getValueSalesTargetStatus()*4){
+            commission = sumOrder * SIMPLE_COMMISSION_PERCENTAGE;
+            salesTarget.setSalesTargetStatus(SalesTargetStatus.SALES_TARGET);
+
+        }
+        else if (sumOrder >  salesTarget.getValueSalesTargetStatus()*2){
+            commission = sumOrder * SUPER_COMMISSION_PERCENTAGE;
+            salesTarget.setSalesTargetStatus(SalesTargetStatus.SUPER_SALES_TARGET);
+        }
+        else {
+            commission=0.0;
+        }
+        return commission;
+    }
+    public double getDiscountAbsences(){
+        return  (salary/30)*absences.size();
+
     }
 
 
-     */
-
-
-    public String getDescriptionFunction() {
-        return descriptionFunction;
+    public double getTotalRemuneration(){
+       return (getCommission()+salary)-getDiscountAbsences();
     }
 
-    public void setDescriptionFunction(String descriptionFunction) {
-        this.descriptionFunction = descriptionFunction;
-    }
+
 
     public Double getSalary() {
         return salary;
@@ -83,10 +92,6 @@ public class Employee extends User implements Serializable {
 
     public void setSalary(Double salary) {
         this.salary = salary;
-    }
-
-    public Shift getShift() {
-        return shift;
     }
 
     public LocalDate getHiringDate() {
@@ -97,32 +102,42 @@ public class Employee extends User implements Serializable {
         this.hiringDate = hiringDate;
     }
 
-    public StatusSalesTarget getStatusSalesTarget () {
-        return StatusSalesTarget.valueOf(statusSalesTarget);
+    public void setSalesTarget(SalesTarget salesTarget) {
+        this.salesTarget = salesTarget;
+    }
+    public SalesTarget getSalesTarget() {
+        return salesTarget;
     }
 
-    public void setStatusSalesTarget(StatusSalesTarget statusSalesTarget) {
-        if (statusSalesTarget  != null){
-            this.statusSalesTarget = statusSalesTarget.getCode();
-        }
+    public Double getSIMPLE_COMMISSION_PERCENTAGE() {
+        return SIMPLE_COMMISSION_PERCENTAGE;
     }
 
-
-    public void setShift(Shift shift) {
-        this.shift = shift;
+    public Double getSUPER_COMMISSION_PERCENTAGE() {
+        return SUPER_COMMISSION_PERCENTAGE;
     }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public Set<EmployeeExtraHour> getExtraHours() {
+        return extraHours;
+    }
+    public List<ExtraHour> getExtraHour(){
+        return extraHours.stream().map(x->x.getExtraHour()).toList();
+    }
+
     @Override
     public List<Order> getOrders() {
         return orders;
     }
     public List<Absence> getAbsences() {
         return absences;
-    }
-    public List<ExtraHour> getExtraHours() {
-        return extraHours;
-    }
-    public Set<SalesTarget> getSalesTarget() {
-        return salesTarget;
     }
 
 
