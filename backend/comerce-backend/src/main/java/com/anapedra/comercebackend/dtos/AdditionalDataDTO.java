@@ -35,12 +35,16 @@ public class AdditionalDataDTO  implements Serializable {
 
     }
 
-    public AdditionalDataDTO(AdditionalData entity, List<Address> addresses, List<Email> emails, List<Phone> phones) {
+    public AdditionalDataDTO(AdditionalData entity, Long id, List<Address> addresses, List<Email> emails, List<Phone> phones) {
+        this(entity);
+        entity.getAddresses().forEach(address -> this.addresses.add(new AddressDTO(address)));
+        entity.getEmails().forEach(email -> this.emails.add(new EmailDTO(email)));
+        entity.getPhones().forEach(phone -> this.phones.add(new PhoneDTO(phone)));
 
     }
 
     public AdditionalDataDTO(Long id, List<Address> addresses, List<Email> emails, List<Phone> phones) {
-        
+
     }
 
 
@@ -83,5 +87,6 @@ public class AdditionalDataDTO  implements Serializable {
     public void setAddresses(List<AddressDTO> addresses) {
         this.addresses = addresses;
     }
+
 
 }

@@ -1,10 +1,10 @@
 package com.anapedra.comercebackend.entities;
 
 import com.anapedra.comercebackend.entities.pk.PurchaseOrderItemPK;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
 

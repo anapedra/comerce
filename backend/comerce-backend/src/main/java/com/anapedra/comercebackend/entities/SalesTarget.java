@@ -1,8 +1,9 @@
 package com.anapedra.comercebackend.entities;
 
 import com.anapedra.comercebackend.entities.enums.SalesTargetStatus;
-import jakarta.persistence.*;
 
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;

@@ -1,8 +1,9 @@
 package com.anapedra.comercebackend.entities;
 
 import com.anapedra.comercebackend.entities.enums.TypeFormPayment;
-import jakarta.persistence.*;
 
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;

@@ -2,7 +2,8 @@ package com.anapedra.comercebackend.entities;
 
 import com.anapedra.comercebackend.entities.enums.OrderStatus;
 import com.anapedra.comercebackend.entities.enums.TypeAbsence;
-import jakarta.persistence.*;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
