@@ -56,6 +56,8 @@ public class OrderDTO implements Serializable {
         entity.getItems().forEach(orderItem -> this.items.add(new OrderItemDTO(orderItem)));
     }
 
+
+
     public Long getId() {
         return id;
     }

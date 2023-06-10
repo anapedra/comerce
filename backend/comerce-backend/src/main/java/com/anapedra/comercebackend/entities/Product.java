@@ -1,6 +1,8 @@
 package com.anapedra.comercebackend.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
@@ -17,13 +19,20 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'",timezone = "GMT")
     private Instant momentRegistration;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant momentUpdate;
+    @Column(columnDefinition = "TEXT")
     private String shortDescription;
+    @Lob
     private String fullDescription;
     private Double productCost;
     private Double initialPrice;
     private String imgUrl;
+    @ManyToOne
+    @JoinColumn(name = "catalogId")
+    private Catalog catalog;
     @OneToOne(mappedBy = "product",cascade = CascadeType.ALL)
     private OfferProduct offerProduct;
     @ManyToMany
@@ -37,17 +46,18 @@ public class Product implements Serializable {
     private Set<PurchaseOrderItem>purchaseOrderItems =new HashSet<>();
 
 
-
-    public Product(Long id, String shortDescription, String fullDescription, Instant momentRegistration,
-                   Instant momentUpdate, Double productCost, Double initialPrice, String imgUrl) {
+    public Product(Long id, Instant momentRegistration, Instant momentUpdate, String shortDescription, String fullDescription, Double productCost,
+                   Double initialPrice, String imgUrl, Catalog catalog, OfferProduct offerProduct) {
         this.id = id;
-        this.shortDescription = shortDescription;
-        this.fullDescription = fullDescription;
         this.momentRegistration = momentRegistration;
         this.momentUpdate = momentUpdate;
+        this.shortDescription = shortDescription;
+        this.fullDescription = fullDescription;
         this.productCost = productCost;
         this.initialPrice = initialPrice;
         this.imgUrl = imgUrl;
+        this.catalog = catalog;
+        this.offerProduct = offerProduct;
     }
 
     public Product() {
@@ -128,6 +138,14 @@ public class Product implements Serializable {
 
     public Set<Category> getCategories() {
         return categories;
+    }
+
+    public Catalog getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(Catalog catalog) {
+        this.catalog = catalog;
     }
 
     public Set<OrderItem> getItems() {

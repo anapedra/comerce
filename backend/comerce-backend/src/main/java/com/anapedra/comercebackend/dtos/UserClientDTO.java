@@ -46,11 +46,12 @@ public class UserClientDTO implements Serializable {
       mainPhone=entity.getMainPhone();
       cpf=entity.getCpf();
       registrationEmail=entity.getRegistrationEmail();
-      additionalData=new AdditionalDataDTO(
-              entity.getAdditionalData().getId(),
-              entity.getAdditionalData().getAddresses(),
-              entity.getAdditionalData().getEmails(),
-              entity.getAdditionalData().getPhones());
+        additionalData = new AdditionalDataDTO(
+                entity.getAdditionalData().getId(),
+                entity.getAdditionalData().getAddresses(),
+                entity.getAdditionalData().getEmails(),
+                entity.getAdditionalData().getPhones());
+
     }
 
     public UserClientDTO(Employee entity, List<Order> orders){

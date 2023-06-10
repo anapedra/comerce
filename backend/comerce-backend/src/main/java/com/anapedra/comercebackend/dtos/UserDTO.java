@@ -5,6 +5,7 @@ import com.anapedra.comercebackend.entities.User;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Objects;
 
 public class UserDTO implements Serializable {
     private static final long serialVersionUID=1L;
@@ -44,6 +45,7 @@ public class UserDTO implements Serializable {
                 entity.getAdditionalData().getAddresses(),
                 entity.getAdditionalData().getEmails(),
                 entity.getAdditionalData().getPhones());
+
 
 
     }
@@ -105,9 +107,16 @@ public class UserDTO implements Serializable {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserDTO)) return false;
+        UserDTO userDTO = (UserDTO) o;
+        return Objects.equals(getId(), userDTO.getId());
+    }
 
-
-
-
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }

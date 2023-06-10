@@ -52,7 +52,7 @@ public class ComerceBackendApplication implements CommandLineRunner {
         User cl4=new User(10L,"Helena",Instant.parse("2017-09-25T08:00:00Z"),"1236547899","257869332421","helena@gmaol.com","123",null);
         List<User> clients = new ArrayList<>(Arrays.asList(cl1, cl2, cl3, cl4));
         userRepository.saveAll(clients);
-
+/*
         Product p1 = new Product(1L, "computador", "Computar ultima geração", Instant.parse("2017-09-25T08:00:00Z"), Instant.parse("2017-09-25T08:00:00Z"), 33.5, 55.5, null);
         Product p2 = new Product(2L, "Tv", "Computar ultima geração", Instant.parse("2017-09-25T08:00:00Z"), Instant.parse("2017-09-25T08:00:00Z"), 33.5, 55.5, null);
         Product p3 = new Product(3L, "Game", "Computar ultima geração", Instant.parse("2017-09-25T08:00:00Z"), Instant.parse("2017-09-25T08:00:00Z"), 33.5, 55.5, null);
@@ -91,6 +91,10 @@ public class ComerceBackendApplication implements CommandLineRunner {
         orders.addAll(Arrays.asList(o1,o2,o3,o4));
         orderRepository.saveAll(orders);
 
+ */
+
     }
+
+
 
 }

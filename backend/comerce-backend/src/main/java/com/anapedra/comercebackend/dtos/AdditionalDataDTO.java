@@ -29,9 +29,9 @@ public class AdditionalDataDTO  implements Serializable {
     public AdditionalDataDTO(AdditionalData entity) {
         id=entity.getId();
         userName=entity.getUser().getName();
-        phones=entity.getPhones().stream().map(x->new PhoneDTO(x)).collect(Collectors.toList());
-        addresses=entity.getAddresses().stream().map(x->new AddressDTO(x)).collect(Collectors.toList());
-        emails=entity.getEmails().stream().map(x->new EmailDTO(x)).collect(Collectors.toList());
+        entity.getPhones().stream().map(x->new PhoneDTO(x)).collect(Collectors.toList());
+        entity.getAddresses().stream().map(x->new AddressDTO(x)).collect(Collectors.toList());
+        entity.getEmails().stream().map(x->new EmailDTO(x)).collect(Collectors.toList());
 
     }
 

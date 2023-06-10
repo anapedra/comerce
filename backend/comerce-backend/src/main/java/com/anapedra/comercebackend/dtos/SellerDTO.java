@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class EmployeeSelleDTO implements Serializable {
+public class SellerDTO implements Serializable {
     private static final long serialVersionUID=1L;
     private Long id;
     private String name;
@@ -31,13 +31,13 @@ public class EmployeeSelleDTO implements Serializable {
     private List<AbsenceDTO>absences=new ArrayList<>();
     private List<ExtraHourDTO>extraHours=new ArrayList<>();
 
-    public EmployeeSelleDTO() {
+    public SellerDTO() {
 
     }
 
-    public EmployeeSelleDTO(Long id, String name, Instant momentRegistration, Instant momentUpdate, String mainPhone,String cpf,String registrationEmail,
-                            Double salary, LocalDate hiringDate, SalesTarget salesTarget, AdditionalDataDTO additionalData,
-                            String departmentDescription, Double discountAbsences, Double totalCommission, Double totalRemuneration) {
+    public SellerDTO(Long id, String name, Instant momentRegistration, Instant momentUpdate, String mainPhone, String cpf, String registrationEmail,
+                     Double salary, LocalDate hiringDate, SalesTarget salesTarget, AdditionalDataDTO additionalData,
+                     String departmentDescription, Double discountAbsences, Double totalCommission, Double totalRemuneration) {
         this.id = id;
         this.name = name;
         this.momentRegistration = momentRegistration;
@@ -55,7 +55,7 @@ public class EmployeeSelleDTO implements Serializable {
         this.totalRemuneration = totalRemuneration;
     }
 
-    public EmployeeSelleDTO(Employee entity){
+    public SellerDTO(Employee entity){
         id = entity.getId();
         name = entity.getName();
         momentRegistration = entity.getMomentRegistration();
@@ -75,7 +75,7 @@ public class EmployeeSelleDTO implements Serializable {
                 entity.getAdditionalData().getPhones());
 
     }
-    public EmployeeSelleDTO(Employee entity, List<Absence>absences, List<ExtraHourDTO>extraHours) {
+    public SellerDTO(Employee entity, List<Absence>absences, List<ExtraHourDTO>extraHours) {
         this(entity);
         entity.getAbsences().forEach(absence -> this.absences.add(new AbsenceDTO(absence)));
         entity.getExtraHours().forEach(extraHour -> this.extraHours.add(new ExtraHourDTO(extraHour)));
@@ -215,8 +215,8 @@ public class EmployeeSelleDTO implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof EmployeeSelleDTO)) return false;
-        EmployeeSelleDTO that = (EmployeeSelleDTO) o;
+        if (!(o instanceof SellerDTO)) return false;
+        SellerDTO that = (SellerDTO) o;
         return Objects.equals(id, that.id);
     }
 

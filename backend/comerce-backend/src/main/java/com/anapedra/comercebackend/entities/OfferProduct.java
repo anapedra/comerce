@@ -21,6 +21,9 @@ public class OfferProduct implements Serializable {
     private LocalDate endDate;
     private Double originalPrice;
     private Double discountOffer;
+    @ManyToOne
+    @JoinColumn(name = "catalogId")
+    private Catalog catalog;
     @OneToOne
     @MapsId
     private Product product;
@@ -30,13 +33,14 @@ public class OfferProduct implements Serializable {
     }
 
     public OfferProduct(Long id, String offerDescription, LocalDate startDate, LocalDate endDate,
-                        Double originalPrice, Double discountOffer, Product product) {
+                        Double originalPrice, Double discountOffer, Catalog catalog, Product product) {
         this.id = id;
         this.offerDescription = offerDescription;
         this.startDate = startDate;
         this.endDate = endDate;
         this.originalPrice = originalPrice;
         this.discountOffer = discountOffer;
+        this.catalog = catalog;
         this.product = product;
     }
 
@@ -98,6 +102,14 @@ public class OfferProduct implements Serializable {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public Catalog getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(Catalog catalog) {
+        this.catalog = catalog;
     }
 
     @Override
