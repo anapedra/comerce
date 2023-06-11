@@ -6,6 +6,7 @@ import com.anapedra.comercebackend.entities.enums.TypeFormPayment;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -22,7 +23,7 @@ public class Payment implements Serializable {
     @MapsId
     private Order order;
 
-    public Payment(Long id, Instant momentPayment, TypeFormPayment typeFormPayment, Order order) {
+    public Payment(Long id, Instant  momentPayment, TypeFormPayment typeFormPayment, Order order) {
         this.id = id;
         this.momentPayment = momentPayment;
         setTypeFormPayment(typeFormPayment);
@@ -32,31 +33,6 @@ public class Payment implements Serializable {
     public Payment() {
 
     }
-
-    public double getFormPaymentInstallments(double amount){
-        typeFormPayment=0;
-        switch (typeFormPayment){
-            case 1:
-                amount=order.getTotal();
-                break;
-            case 2:
-                amount=order.getTotal();
-            case 3:
-                amount=order.getTotal();
-            case 4:
-                amount=order.getTotal()/2;
-                System.out.println("Sua compra foi parceleda em 2x sem juros\nPrimeira parcela entra na sua procima fatura");
-            case 5:
-                amount=order.getTotal()/3;
-                System.out.println("Sua compra foi parceleda em 3x sem juros\nPrimeira parcela entra na sua procima fatura");
-            default:
-                System.out.println("Invalid code!");
-
-        }
-        return amount;
-    }
-
-
 
     public TypeFormPayment getTypeFormPayment() {
         return TypeFormPayment.valueOf(typeFormPayment);
@@ -83,6 +59,8 @@ public class Payment implements Serializable {
     public void setMomentPayment(Instant momentPayment) {
         this.momentPayment = momentPayment;
     }
+
+
 
     public Order getOrder() {
         return order;

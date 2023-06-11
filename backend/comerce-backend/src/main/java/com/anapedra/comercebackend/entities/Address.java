@@ -5,6 +5,8 @@ import com.anapedra.comercebackend.entities.enums.TypeAddress;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -22,7 +24,10 @@ public class Address implements Serializable {
     private String neighborhood;
     private String city;
     private String state;
+    @OneToMany(mappedBy = "addressShip")
+    private List<Ship>ships=new ArrayList<>();
     private String addressComplement;
+
     @ManyToOne
     @JoinColumn(name = "additionalDataId")
     private AdditionalData additionalData;
@@ -114,6 +119,10 @@ public class Address implements Serializable {
 
     public String getAddressComplement() {
         return addressComplement;
+    }
+
+    public List<Ship> getShips() {
+        return ships;
     }
 
     public void setAddressComplement(String addressComplement) {

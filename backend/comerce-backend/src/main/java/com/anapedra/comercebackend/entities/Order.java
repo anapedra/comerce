@@ -1,7 +1,10 @@
 package com.anapedra.comercebackend.entities;
 
-import com.anapedra.comercebackend.entities.enums.OrderStatus;
 
+
+
+import com.anapedra.comercebackend.entities.enums.OrderStatus;
+import com.anapedra.comercebackend.entities.enums.TypeFormPayment;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +14,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+
+import static com.anapedra.comercebackend.entities.enums.TypeFormPayment.PIX;
 
 @Entity
 @Table(name = "tb_order")
@@ -24,9 +29,13 @@ public class Order implements Serializable {
     private Instant momentUpdate;
     private LocalDate dateOrder;
     private Integer status;
+    private Double amountDiscount;
+    private Double minAmountDiscount;
     @ManyToOne
     @JoinColumn(name = "seller_id")
     private Employee seller;
+    @OneToOne(mappedBy = "order",cascade = CascadeType.ALL)
+    private Ship ship;
     @ManyToOne
     @JoinColumn(name = "client_id")
     private User client;
@@ -34,16 +43,36 @@ public class Order implements Serializable {
     private Payment payment;
     @OneToMany(mappedBy = "id.order")
     private Set<OrderItem> items=new HashSet<>();
-    //TOTAL(metado)
 
 
-    public Order(Long id, Instant momentRegistration, Instant momentUpdate,LocalDate dateOrder, OrderStatus status,Employee seller, User client) {
+    public Order(Long id, Instant momentRegistration, Instant momentUpdate, LocalDate dateOrder, Integer status, Double amountDiscount,
+                 Double minAmountDiscount, Employee seller, Ship ship, User client, Payment payment) {
+        this.id = id;
+        this.momentRegistration = momentRegistration;
+        this.momentUpdate = momentUpdate;
+        this.dateOrder = dateOrder;
+        this.status = status;
+        this.amountDiscount = amountDiscount;
+        this.minAmountDiscount = minAmountDiscount;
+        this.seller = seller;
+        this.ship = ship;
+        this.client = client;
+        this.payment = payment;
+    }
+
+    public Order(Long id, Instant momentRegistration, Instant momentUpdate,
+                 LocalDate dateOrder,Double amountDiscount,Double minAmountDiscount,
+                 OrderStatus status, Employee seller, Ship ship, User client) {
         this.id = id;
         this.momentRegistration = momentRegistration;
         this.momentUpdate = momentUpdate;
         this.dateOrder=dateOrder;
+        this.minAmountDiscount=minAmountDiscount;
+        this.amountDiscount=amountDiscount;
+        this.
         setStatus(status);
         this.seller = seller;
+        this.ship=ship;
         this.client = client;
 
     }
@@ -52,6 +81,8 @@ public class Order implements Serializable {
 
     }
 
+
+
     public double getTotal(){
         double soma = 0.0;
         for (OrderItem orderItem : items) {
@@ -59,6 +90,20 @@ public class Order implements Serializable {
         }
         return soma;
     }
+
+    public Double calcDiscount(){
+        if (payment.getTypeFormPayment() == PIX && getTotal() > minAmountDiscount){
+          return (getTotal()*amountDiscount);
+        }
+        else {
+            return 0.0;
+        }
+    }
+
+    public double getTotalPayment(){
+       return  getTotal()+ship.getCostShip()-calcDiscount();
+    }
+
     public int getQuantityProduct(){
         int soma = 0;
         for (OrderItem orderItem : items) {
@@ -89,6 +134,22 @@ public class Order implements Serializable {
 
     public void setMomentUpdate(Instant momentUpdate) {
         this.momentUpdate = momentUpdate;
+    }
+
+    public Double getAmountDiscount() {
+        return amountDiscount;
+    }
+
+    public void setAmountDiscount(Double amountDiscount) {
+        this.amountDiscount = amountDiscount;
+    }
+
+    public Double getMinAmountDiscount() {
+        return minAmountDiscount;
+    }
+
+    public void setMinAmountDiscount(Double minAmountDiscount) {
+        this.minAmountDiscount = minAmountDiscount;
     }
 
     public LocalDate getDateOrder() {
@@ -131,6 +192,14 @@ public class Order implements Serializable {
 
     public void setPayment(Payment payment) {
         this.payment = payment;
+    }
+
+    public Ship getShip() {
+        return ship;
+    }
+
+    public void setShip(Ship ship) {
+        this.ship = ship;
     }
 
     public Set<OrderItem> getItems() {
