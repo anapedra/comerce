@@ -1,7 +1,7 @@
 package com.anapedra.comercebackend.entities;
 
 
-
+/*
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -75,3 +75,5 @@ public class Email implements Serializable {
         return Objects.hash(id);
     }
 }
+
+ */

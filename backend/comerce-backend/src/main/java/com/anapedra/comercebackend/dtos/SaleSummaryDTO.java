@@ -1,6 +1,8 @@
 package com.anapedra.comercebackend.dtos;
 
 
+import com.anapedra.comercebackend.entities.Order;
+
 import java.io.Serializable;
 
 public class SaleSummaryDTO implements Serializable {
@@ -18,28 +20,19 @@ public class SaleSummaryDTO implements Serializable {
 
     }
 
-    public SaleSummaryDTO(OrderDTO entity) {
-        sellerName= entity.getSelleName();
+    public SaleSummaryDTO(Order entity) {
+        sellerName= entity.getSeller().getName();
         total=entity.getTotal();
     }
-
-
 
     public String getSellerName() {
         return sellerName;
     }
-
-    public void setSellerName(String sellerName) {
-        this.sellerName = sellerName;
-    }
-
     public double getTotal() {
         return total;
     }
 
-    public void setTotal(double total) {
-        this.total = total;
-    }
+
 }
 
 

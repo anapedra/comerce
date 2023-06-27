@@ -40,15 +40,15 @@ public class AddressDTO {
 
     public AddressDTO(Address entity) {
       id= entity.getId();
-      addressPersonName=entity.getAdditionalData().getUser().getName();
+
       typeAddress=entity.getTypeAddress();
-      road=entity.getRoad();
+      road=entity.getStreet();
       number=entity.getNumber();
       cep=entity.getCep();
-      neighborhood=entity.getNeighborhood();
+      neighborhood=entity.getBorhood();
       city=entity.getCity();
       state=entity.getState();
-      addressComplement=entity.getAddressComplement();
+
 
     }
 
@@ -153,3 +153,5 @@ public class AddressDTO {
         return Objects.hash(id);
     }
 }
+
+

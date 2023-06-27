@@ -1,22 +1,16 @@
 package com.anapedra.comercebackend.services;
 
-public class ProductService {
-    /*
-
-import com.anasatanapedra.lojaback.dtos.CategoryDTO;
-import com.anasatanapedra.lojaback.dtos.ProductDTO;
-import com.anasatanapedra.lojaback.entities.Category;
-import com.anasatanapedra.lojaback.entities.Product;
-import com.anasatanapedra.lojaback.repositories.CategoryRepository;
-import com.anasatanapedra.lojaback.repositories.ProductRepository;
-import com.anasatanapedra.lojaback.service.exceptionsservice.DatabaseException;
-import com.anasatanapedra.lojaback.service.exceptionsservice.ResourceNotFoundException;
-import org.hibernate.annotations.Cache;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
-import org.springframework.cache.config.CacheNamespaceHandler;
+import com.anapedra.comercebackend.dtos.CategoryDTO;
+import com.anapedra.comercebackend.dtos.OrderDTO;
+import com.anapedra.comercebackend.dtos.ProductDTO;
+import com.anapedra.comercebackend.entities.Category;
+import com.anapedra.comercebackend.entities.Order;
+import com.anapedra.comercebackend.entities.Product;
+import com.anapedra.comercebackend.repositories.CategoryRepository;
+import com.anapedra.comercebackend.repositories.OrderRepository;
+import com.anapedra.comercebackend.repositories.ProductRepository;
+import com.anapedra.comercebackend.services.exceptionservice.DataBaseException;
+import com.anapedra.comercebackend.services.exceptionservice.ResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -25,31 +19,77 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-//@CacheConfig(cacheNames = "entity")
 @Service
 public class ProductService {
+
+
+    private final AuthService authService;
     private final ProductRepository repository;
     private final CategoryRepository categoryRepository;
-
-    public ProductService(ProductRepository repository, CategoryRepository categoryRepository) {
+    public ProductService(AuthService authService, ProductRepository repository, CategoryRepository categoryRepository) {
+        this.authService = authService;
         this.repository = repository;
         this.categoryRepository = categoryRepository;
     }
 
-   //@Cacheable(unless="#result.size()<3")
+
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAllPaged(Long categoryId, String name, Pageable pageable) {
-        List<Category> categories = (categoryId == 0) ? null : Arrays.asList(categoryRepository.getOne(categoryId));
-        Page<Product> page = repository.find(categories, name, pageable);
-        repository.findProductsWithCategories(page.getContent());
-        return page.map(x -> new ProductDTO(x, x.getCategories()));
+    public Page<ProductDTO> findAllPaged(Long categoryId,String descriptionProduct,Pageable pageable){
+        List<Category>categories = (categoryId == 0) ? null : Arrays.asList(categoryRepository.getOne(categoryId));
+        Page<Product> page = repository.find(categories,descriptionProduct,pageable);
+        repository.findProducts(page.stream().collect(Collectors.toList()));
+        return page.map(ProductDTO::new);
+    }
+    /*
+
+    @Transactional(readOnly = true)
+    public Page<ProductDTO> findAllPaged(Long categoryId,String descriptionProduct,String descriptionCategory,Pageable pageable){
+        List<Category>categories = (categoryId == 0) ? null : Arrays.asList(categoryRepository.getOne(categoryId));
+        Page<Product> page = repository.find(categories,descriptionProduct,descriptionProduct,pageable);
+        repository.findProducts(page.stream().collect(Collectors.toList()));
+        return page.map(ProductDTO::new);
+    }
+     */
+
+
+
+/*
+
+
+        /*
+
+    @Transactional(readOnly = true)
+    public Page<OrderDTO> findOder(String minDate, String maxDate, Pageable pageable){
+        LocalDate today=LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+        LocalDate min =minDate.equals("") ? today.minusDays(365) : LocalDate.parse(minDate);
+        LocalDate max=maxDate.equals("") ? today : LocalDate.parse(maxDate);
+        Page<Order> page=orderRepository.findOrder(min,max,pageable);
+        orderRepository.findAllOrder(page.stream().collect(Collectors.toList()));
+        return page.map(OrderDTO::new);
     }
 
-    @Cacheable(value = "entity",key="#id")
+
+         */
+
+
+
+
+
+
+@Transactional(readOnly = true)
+public Page<ProductDTO> findAll(Pageable pageable) {
+    Page<Product> page = repository.findAll(pageable);
+    return page.map(x -> new ProductDTO(x));
+}
+
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
         Optional<Product> obj = repository.findById(id);
@@ -65,12 +105,6 @@ public class ProductService {
         return new ProductDTO(entity);
     }
 
-
-    //@Caching(evict = {
-      //      @CacheEvict(value = "entity",key = "#entity.id")
-    //        @CacheEvict(value = "entity",key = "#dto.id")
-   // })
-   // @CacheEvict(value = "entity",key="#dto.id")
     @Transactional
     public ProductDTO update(Long id, ProductDTO dto) {
         try {
@@ -92,17 +126,21 @@ public class ProductService {
             throw new ResourceNotFoundException("Id not found " + id);
         }
         catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("Integrity violation");
+            throw new DataBaseException("Integrity violation");
         }
     }
 
     private void copyDtoToEntity(ProductDTO dto, Product entity) {
 
-        entity.setName(dto.getName());
-        entity.setDescription(dto.getDescription());
-        entity.setDate(dto.getDate());
+        entity.setShortDescription(dto.getShortDescription());
+        entity.setFullDescription(dto.getFullDescription());
+        entity.setInitialPrice(dto.getInitialPrice());
+        entity.setProductCost(dto.getOfferProduct().getOfferPrice());
+        entity.setMomentRegistration(Instant.now());
+        entity.setMomentUpdate(Instant.now());
         entity.setImgUrl(dto.getImgUrl());
-        entity.setPrice(dto.getPrice());
+        entity.setProductCost(entity.getProductCost());
+
 
         entity.getCategories().clear();
         for (CategoryDTO catDto : dto.getCategories()) {
@@ -111,6 +149,8 @@ public class ProductService {
         }
     }
 
-
-     */
 }
+
+
+
+

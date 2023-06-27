@@ -1,5 +1,5 @@
 package com.anapedra.comercebackend.dtos;
-
+/*
 import com.anapedra.comercebackend.entities.Email;
 
 import java.util.Objects;
@@ -73,3 +73,5 @@ public class EmailDTO {
         return Objects.hash(getId());
     }
 }
+
+ */

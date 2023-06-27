@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
-
+/*
 @Entity
 @Table(name = "tb_paymant")
 public class Payment implements Serializable {
@@ -83,3 +83,5 @@ public class Payment implements Serializable {
         return Objects.hash(id);
     }
 }
+
+ */

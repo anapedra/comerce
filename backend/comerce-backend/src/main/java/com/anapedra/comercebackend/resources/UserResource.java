@@ -1,7 +1,18 @@
 package com.anapedra.comercebackend.resources;
 
-public class UserResource {
-    /*
+
+import com.anapedra.comercebackend.dtos.UserDTO;
+import com.anapedra.comercebackend.dtos.UserInsertDTO;
+import com.anapedra.comercebackend.dtos.UserUpdateDTO;
+import com.anapedra.comercebackend.services.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.validation.Valid;
+import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -13,7 +24,7 @@ public class UserResource {
 
     @GetMapping
     public ResponseEntity<Page<UserDTO>> findAll(Pageable pageable) {
-        Page<UserDTO> list = service.findAllPaged(pageable);
+        Page<UserDTO> list = service.findAll(pageable);
         return ResponseEntity.ok().body(list);
     }
 
@@ -22,11 +33,16 @@ public class UserResource {
         UserDTO dto = service.findById(id);
         return ResponseEntity.ok().body(dto);
     }
+
+
+    /*
     @GetMapping(value = "/roles")
     public ResponseEntity<Page<UserDTO>> findPostsByCategory(@RequestParam(value = "roleId",defaultValue = "0") Long roleId, Pageable pageable) {
-        Page<UserDTO> list = service.findAllByRole(roleId,pageable);
+        Page<UserDTO> list = service.findAll(roleId,pageable);
         return ResponseEntity.ok().body(list);
     }
+
+     */
 
     @PostMapping
     public ResponseEntity<UserDTO> insert(@RequestBody @Valid UserInsertDTO dto) {
@@ -44,7 +60,7 @@ public class UserResource {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        service.delete(id);
+        service.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }
@@ -52,5 +68,4 @@ public class UserResource {
 
 
 
-     */
-}
+

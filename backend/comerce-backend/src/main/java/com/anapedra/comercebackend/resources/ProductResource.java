@@ -1,7 +1,16 @@
 package com.anapedra.comercebackend.resources;
 
-public class ProductResource {
-    /*
+import com.anapedra.comercebackend.dtos.ProductDTO;
+import com.anapedra.comercebackend.services.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.validation.Valid;
+import java.net.URI;
+
 
 @RestController
 @RequestMapping(value = "/products")
@@ -13,14 +22,14 @@ public class ProductResource {
             this.service = service;
         }
 
-        @GetMapping
-        public ResponseEntity<Page<ProductDTO>> findAll(
-                @RequestParam(value = "categoryId", defaultValue = "0") Long categoryId,
-                @RequestParam(value = "name", defaultValue = "") String name,
-                Pageable pageable) {
 
-            Page<ProductDTO> list = service.findAllPaged(categoryId, name.trim(), pageable);
-            return ResponseEntity.ok().body(list);
+        @GetMapping
+         public ResponseEntity<Page<ProductDTO>> findAll(
+            @RequestParam(value = "categoryId", defaultValue = "0") Long categoryId,
+            @RequestParam(value = "descriptionProduct", defaultValue = "") String descriptionProduct,
+            Pageable pageable) {
+          Page<ProductDTO> list = service.findAllPaged(categoryId,descriptionProduct.trim() ,pageable);
+          return ResponseEntity.ok().body(list);
         }
 
         @GetMapping(value = "/{id}")
@@ -52,5 +61,5 @@ public class ProductResource {
 
 
 
-     */
-}
+
+

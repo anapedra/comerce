@@ -1,40 +1,23 @@
 package com.anapedra.comercebackend.resources;
 
 import com.anapedra.comercebackend.dtos.OrderDTO;
-import com.anapedra.comercebackend.services.OrderService;
+import com.anapedra.comercebackend.dtos.SaleDTO;
+import com.anapedra.comercebackend.dtos.SalesClientSellerDTO;
+import com.anapedra.comercebackend.dtos.SellerSaleMinDTO;
+import com.anapedra.comercebackend.services.OderService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.validation.Valid;
+import java.net.URI;
+import java.util.List;
+
 
 @RestController
 @RequestMapping(value = "/orders")
-public class OrderResource {
-
-private final OrderService service;
-    public OrderResource(OrderService service) {
-        this.service = service;
-    }
-
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<OrderDTO> findById(@PathVariable Long id) {
-        OrderDTO dto = service.findById(id);
-        return ResponseEntity.ok(dto);
-    }
-
-    @GetMapping(value = "/report")
-    public ResponseEntity<Page<OrderDTO>> findAll(Pageable pageable) {
-        Page<OrderDTO> page = service.findAllSale(pageable);
-        return ResponseEntity.ok().body(page);
-
-    }
-    /*
-
-@RestController
-@RequestMapping(value = "/ordrs")
 public class OrderResource {
 
     private final OderService service;
@@ -42,18 +25,53 @@ public class OrderResource {
         this.service = service;
     }
 
-
     @GetMapping
     public ResponseEntity<Page<OrderDTO>> findAll(
+
+            @RequestParam(value = "clientId",defaultValue = "0")Long clientId,
+            @RequestParam(value = "sellerId",defaultValue = "0")Long sellerId,
+            @RequestParam(value = "nameClient",defaultValue = "") String nameClient,
+            @RequestParam(value = "nameSeller",defaultValue = "") String nameSeller,
+            @RequestParam(value = "cpfClient",defaultValue = "") String cpfClient,
             @RequestParam(value = "minDate",defaultValue = "") String minDate,
             @RequestParam(value = "maxDate",defaultValue = "") String maxDate,
             Pageable pageable) {
-        Page<OrderDTO> list = service.findOder(minDate,maxDate,pageable);
+        Page<OrderDTO> list = service.find(clientId,sellerId,nameClient,nameSeller,cpfClient,minDate,maxDate,pageable);
         return ResponseEntity.ok().body(list);
     }
 
+    @GetMapping(value = "/summary")
+    public ResponseEntity<List<SaleDTO>> findSummary(
+            @RequestParam(value = "minDate",defaultValue = "") String minDate,
+            @RequestParam(value = "maxDate",defaultValue = "") String maxDate
+
+    ) {
+        List<SaleDTO> list = service.findSummary(minDate,maxDate);
+        return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping(value = "/sumSale")
+    public ResponseEntity<List<SellerSaleMinDTO>> sumSale(
+            @RequestParam(value = "minDate",defaultValue = "") String minDate,
+            @RequestParam(value = "maxDate",defaultValue = "") String maxDate,
+            @RequestParam(value = "cpf",defaultValue = "") String cpf
+    ) {
+        List<SellerSaleMinDTO> list = service.SumSaleBySeller(minDate,maxDate,cpf);
+        return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping(value = "/report")
+    public ResponseEntity<List<SalesClientSellerDTO>> findSummaryMitSellerAndClient(
+            @RequestParam(value = "minDate",defaultValue = "") String minDate,
+            @RequestParam(value = "maxDate",defaultValue = "") String maxDate
+    ) {
+        List<SalesClientSellerDTO> list = service.findSummaryOserClientSeller(minDate,maxDate);
+        return ResponseEntity.ok().body(list);
+    }
+
+
     @GetMapping(value = "/{id}")
-    public ResponseEntity<OrderDTO> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<OrderDTO> findByI(@PathVariable Long id) {
         OrderDTO dto = service.findById(id);
         return ResponseEntity.ok().body(dto);
     }
@@ -77,7 +95,18 @@ public class OrderResource {
         service.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+
+
+
+
+
+
+
+
+
 }
 
-     */
-}
+
+
+

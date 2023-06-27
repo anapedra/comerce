@@ -23,8 +23,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 
     private static final String[] PUBLIC={"/oauth/token","/h2-console/**"};
-    private static final String[] VISITOR_GET={"/genres/**","/movies/**"};
-    private static final String[] MEMBER_POST={"/reviews/**"};
+    private static final String[] PUBLIC_GET={"/products/**"};
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources.tokenStore(tokenStore);
@@ -38,8 +37,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         }
         http.authorizeRequests()
                 .antMatchers(PUBLIC).permitAll()
-                .antMatchers(HttpMethod.GET,VISITOR_GET).hasAnyRole("VISITOR","MEMBER")
-                .antMatchers(HttpMethod.POST,MEMBER_POST).hasAnyRole("MEMBER")
+                .antMatchers(HttpMethod.GET,PUBLIC_GET).permitAll()
                 .anyRequest().authenticated();
 
 

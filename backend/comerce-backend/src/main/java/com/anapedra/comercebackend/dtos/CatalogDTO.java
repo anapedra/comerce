@@ -14,8 +14,8 @@ public class CatalogDTO implements Serializable {
     private Instant momentRegistration;
     private Instant momentUpdate;
     private LocalDate dateRegistration;
-    private List<ProductDTO>products=new ArrayList<>();
-    private List<OfferProductDTO>offer=new ArrayList<>();
+   // private List<ProductDTO>products=new ArrayList<>();
+  //  private List<OfferProductDTO>offer=new ArrayList<>();
 
     public CatalogDTO(Long id, Instant momentRegistration, Instant momentUpdate, LocalDate dateRegistration) {
         this.id = id;
@@ -32,8 +32,8 @@ public class CatalogDTO implements Serializable {
       momentRegistration=entity.getMomentRegistration();
       momentUpdate=entity.getMomentUpdate();
       dateRegistration=entity.getDateRegistration();
-      entity.getProducts().forEach(product -> this.products.add(new ProductDTO(product)));
-      entity.getOfferCatalog().forEach(offerProduct -> this.offer.add(new OfferProductDTO()));
+     // entity.getProducts().forEach(product -> this.products.add(new ProductDTO(product)));
+    //  entity.getOfferCatalog().forEach(offerProduct -> this.offer.add(new OfferProductDTO()));
     }
 
     public Long getId() {
@@ -67,12 +67,15 @@ public class CatalogDTO implements Serializable {
     public void setDateRegistration(LocalDate dateRegistration) {
         this.dateRegistration = dateRegistration;
     }
+    /*
     public List<ProductDTO> getProducts() {
         return products;
     }
     public List<OfferProductDTO> getOffer() {
         return offer;
     }
+
+     */
 
     @Override
     public boolean equals(Object o) {

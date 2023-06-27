@@ -1,6 +1,14 @@
 package com.anapedra.comercebackend.resources;
-/*
-public class CategoryResource {
+
+import com.anapedra.comercebackend.dtos.CategoryDTO;
+import com.anapedra.comercebackend.services.CategoryService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.validation.Valid;
+import java.net.URI;
+import java.util.List;
 
 
 @RestController
@@ -18,15 +26,8 @@ public class CategoryResource {
         List<CategoryDTO> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
-    /*
-    @GetMapping(value = "/postss")
-    public ResponseEntity<Page<CategoryDTO>> findCategoryByPost(@RequestParam(value = "postId",defaultValue = "0") Long postId, Pageable pageable) {
-        Page<CategoryDTO> list = service.findAllByPost(postId,pageable);
-        return ResponseEntity.ok().body(list);
-    }
 
-     */
-    /*
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<CategoryDTO> findById(@PathVariable Long id) {
         CategoryDTO dto = service.findById(id);
@@ -57,7 +58,7 @@ public class CategoryResource {
 
 
 
-}
 
-     */
+
+
 

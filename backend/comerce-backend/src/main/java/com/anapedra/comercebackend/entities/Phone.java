@@ -1,5 +1,5 @@
 package com.anapedra.comercebackend.entities;
-
+/*
 import com.anapedra.comercebackend.entities.enums.TypePhone;
 
 
@@ -90,3 +90,5 @@ public class Phone implements Serializable {
         return Objects.hash(id);
     }
 }
+
+ */

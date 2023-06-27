@@ -38,7 +38,7 @@ public class ExtraHourDTO  implements Serializable {
         quantityExtraHoursByDay=entity.getQuantityExtraHoursByDay();// depois fazer uma pk
         dateExtraHours=entity.getDateExtraHours();
         nightOvertime=entity.isNightOvertime();
-        selleName=entity.getEmployee().getName();
+       // selleName=entity.getEmployee().getName();
         status=entity.getExtraHourStatus();
     }
 

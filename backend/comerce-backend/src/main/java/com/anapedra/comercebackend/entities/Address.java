@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tb_address_list")
+@Table(name = "tb_address")
 public class Address implements Serializable {
     private static final long serialVersionUID=1L;
 
@@ -18,32 +18,30 @@ public class Address implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer typeAddress;
-    private String road;
+    private String street;
     private Integer number;
     private String cep;
-    private String neighborhood;
+    private String borhood;
     private String city;
     private String state;
-    @OneToMany(mappedBy = "addressShip")
-    private List<Ship>ships=new ArrayList<>();
-    private String addressComplement;
+    private String AddressComplement;
+    @OneToMany(mappedBy = "address")
+    private List<User>clients=new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "additionalDataId")
-    private AdditionalData additionalData;
 
-    public Address(Long id, TypeAddress typeAddress, String road, Integer number, String cep, String neighborhood,
-                   String city, String state, String addressComplement, AdditionalData additionalData) {
+
+    public Address(Long id, TypeAddress typeAddress, String street, Integer number, String cep, String borhood,
+                   String city, String state, String addressComplement) {
         this.id = id;
         setTypeAddress(typeAddress);
-        this.road = road;
+        this.street=street;
         this.number = number;
         this.cep = cep;
-        this.neighborhood = neighborhood;
+        this.borhood = borhood;
         this.city = city;
         this.state = state;
-        this.addressComplement = addressComplement;
-        this.additionalData = additionalData;
+        this.AddressComplement=addressComplement;
+
     }
 
     public Address() {
@@ -69,12 +67,12 @@ public class Address implements Serializable {
         }
     }
 
-    public String getRoad() {
-        return road;
+    public String getStreet() {
+        return street;
     }
 
-    public void setRoad(String road) {
-        this.road = road;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public Integer getNumber() {
@@ -93,12 +91,20 @@ public class Address implements Serializable {
         this.cep = cep;
     }
 
-    public String getNeighborhood() {
-        return neighborhood;
+    public String getBorhood() {
+        return borhood;
     }
 
-    public void setNeighborhood(String neighborhood) {
-        this.neighborhood = neighborhood;
+    public void setBorhood(String borhood) {
+        this.borhood = borhood;
+    }
+
+    public String getAddressComplement() {
+        return AddressComplement;
+    }
+
+    public void setAddressComplement(String addressComplement) {
+        AddressComplement = addressComplement;
     }
 
     public String getCity() {
@@ -109,33 +115,17 @@ public class Address implements Serializable {
         this.city = city;
     }
 
-    public String getState() {
-        return state;
-    }
 
     public void setState(String state) {
         this.state = state;
     }
 
-    public String getAddressComplement() {
-        return addressComplement;
+    public String getState() {
+        return state;
     }
 
-    public List<Ship> getShips() {
-        return ships;
-    }
 
-    public void setAddressComplement(String addressComplement) {
-        this.addressComplement = addressComplement;
-    }
 
-    public AdditionalData getAdditionalData() {
-        return additionalData;
-    }
-
-    public void setAdditionalData(AdditionalData additionalData) {
-        this.additionalData = additionalData;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -150,3 +140,5 @@ public class Address implements Serializable {
         return Objects.hash(id);
     }
 }
+
+

@@ -90,6 +90,9 @@ public class ProductDTO implements Serializable {
         return offerProduct;
     }
 
+    public void setOfferProduct(OfferProductDTO offerProduct) {
+        this.offerProduct = offerProduct;
+    }
 
     public List<CategoryDTO> getCategories() {
         return categories;

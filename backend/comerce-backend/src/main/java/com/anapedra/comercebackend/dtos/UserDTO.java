@@ -1,11 +1,15 @@
 package com.anapedra.comercebackend.dtos;
 
-import com.anapedra.comercebackend.entities.AdditionalData;
-import com.anapedra.comercebackend.entities.User;
 
+import com.anapedra.comercebackend.entities.Order;
+import com.anapedra.comercebackend.entities.Role;
+import com.anapedra.comercebackend.entities.User;
+import org.hibernate.validator.constraints.br.CPF;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Objects;
+import java.util.*;
 
 public class UserDTO implements Serializable {
     private static final long serialVersionUID=1L;
@@ -15,23 +19,28 @@ public class UserDTO implements Serializable {
     private Instant momentUpdate;
     private String mainPhone;
     private String registrationEmail;
-    private AdditionalDataDTO additionalData;
-
+    private Long additionalDataId;
+    private Set<RoleDTO> roles=new HashSet<>();
+  //  @CPF
+    private String cpf;
 
     public UserDTO() {
 
     }
 
     public UserDTO(Long id, String name, Instant momentRegistration, Instant momentUpdate, String mainPhone,
-                   String registrationEmail, AdditionalDataDTO additionalData) {
+                   String registrationEmail,Long additionalDataId,String cpf) {
         this.id = id;
         this.name = name;
         this.momentRegistration = momentRegistration;
         this.momentUpdate = momentUpdate;
         this.mainPhone = mainPhone;
         this.registrationEmail = registrationEmail;
-        this.additionalData = additionalData;
+        this.additionalDataId=additionalDataId;
+        this.cpf=cpf;
+
     }
+
 
     public UserDTO(User entity) {
         id=entity.getId();
@@ -40,12 +49,7 @@ public class UserDTO implements Serializable {
         momentUpdate=entity.getMomentUpdate();
         mainPhone=entity.getMainPhone();
         registrationEmail=entity.getRegistrationEmail();
-        additionalData = new AdditionalDataDTO(
-                entity.getAdditionalData().getId(),
-                entity.getAdditionalData().getAddresses(),
-                entity.getAdditionalData().getEmails(),
-                entity.getAdditionalData().getPhones());
-
+        cpf=entity.getCpf();
 
 
     }
@@ -98,14 +102,25 @@ public class UserDTO implements Serializable {
         this.registrationEmail = registrationEmail;
     }
 
-    public AdditionalDataDTO getAdditionalData() {
-        return additionalData;
+    public Long getAdditionalDataId() {
+        return additionalDataId;
     }
 
-    public void setAdditionalData(AdditionalDataDTO additionalData) {
-        this.additionalData = additionalData;
+    public void setAdditionalDataId(Long additionalDataId) {
+        this.additionalDataId = additionalDataId;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public Set<RoleDTO> getRoles() {
+        return roles;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -119,4 +134,6 @@ public class UserDTO implements Serializable {
     public int hashCode() {
         return Objects.hash(getId());
     }
+
+
 }

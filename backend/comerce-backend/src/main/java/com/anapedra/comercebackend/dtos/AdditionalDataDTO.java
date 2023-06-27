@@ -1,5 +1,5 @@
 package com.anapedra.comercebackend.dtos;
-
+/*
 import com.anapedra.comercebackend.entities.*;
 
 import java.io.Serializable;
@@ -90,3 +90,6 @@ public class AdditionalDataDTO  implements Serializable {
 
 
 }
+
+
+ */

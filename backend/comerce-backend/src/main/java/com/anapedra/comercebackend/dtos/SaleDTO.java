@@ -1,40 +1,33 @@
 package com.anapedra.comercebackend.dtos;
 
+import com.anapedra.comercebackend.entities.Order;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
 public class SaleDTO implements Serializable {
     private static final long serialVersionUID=1L;
-    private Long id;
+    private Long orderId;
     private Double amount;
-    private LocalDate date;
-  //  private String sellerName;
-//    private String clientName;
+    private LocalDate orderDate;
 
     public SaleDTO() {
 
     }
-    public SaleDTO(Long id, Double amount) {
-        this.id = id;
-        this.amount = amount;
-        this.date = date;
 
+    public SaleDTO(Order entity) {
+       orderId = entity.getId();
+       amount= entity.getTotalPayment();
+       orderDate =entity.getDateOrder();
     }
 
-    public SaleDTO(OrderDTO entity) {
-      id= entity.getId();
-      amount= entity.getTotal();
-      date=entity.getDateOrder();
-
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
     public Double getAmount() {
@@ -45,22 +38,17 @@ public class SaleDTO implements Serializable {
         this.amount = amount;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getOrderDate() {
+        return orderDate;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof SaleDTO)) return false;
-        SaleDTO saleDTO = (SaleDTO) o;
-        return Objects.equals(id, saleDTO.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public void setOrderDate(LocalDate orderDate) {
+        this.orderDate = orderDate;
     }
 }
+
+
+
+
 
 

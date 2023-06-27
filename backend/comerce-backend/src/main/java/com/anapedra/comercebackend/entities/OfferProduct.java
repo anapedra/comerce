@@ -19,7 +19,6 @@ public class OfferProduct implements Serializable {
     private String offerDescription;
     private LocalDate startDate;
     private LocalDate endDate;
-    private Double originalPrice;
     private Double discountOffer;
     @ManyToOne
     @JoinColumn(name = "catalogId")
@@ -27,22 +26,31 @@ public class OfferProduct implements Serializable {
     @OneToOne
     @MapsId
     private Product product;
+    @ManyToOne
+    @JoinColumn(name = "orderId")
+    private Order order;
 
     public OfferProduct() {
 
     }
 
-    public OfferProduct(Long id, String offerDescription, LocalDate startDate, LocalDate endDate,
-                        Double originalPrice, Double discountOffer, Catalog catalog, Product product) {
+    public OfferProduct(Long id, String offerDescription, LocalDate startDate,
+                        LocalDate endDate, Double discountOffer, Catalog catalog, Product product, Order order) {
         this.id = id;
         this.offerDescription = offerDescription;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.originalPrice = originalPrice;
         this.discountOffer = discountOffer;
         this.catalog = catalog;
         this.product = product;
+        this.order = order;
     }
+
+    public double amountDiscountOffer(){
+        return product.getInitialPrice()*discountOffer;
+    }
+
+
 
     public Double getOfferPrice(){
        return product.getInitialPrice()-(product.getInitialPrice()*discountOffer);
@@ -80,14 +88,6 @@ public class OfferProduct implements Serializable {
         this.endDate = endDate;
     }
 
-    public Double getOriginalPrice() {
-        return originalPrice;
-    }
-
-    public void setOriginalPrice(Double originalPrice) {
-        this.originalPrice = originalPrice;
-    }
-
     public Double getDiscountOffer() {
         return discountOffer;
     }
@@ -110,6 +110,14 @@ public class OfferProduct implements Serializable {
 
     public void setCatalog(Catalog catalog) {
         this.catalog = catalog;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     @Override

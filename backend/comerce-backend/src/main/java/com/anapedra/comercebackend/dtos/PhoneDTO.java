@@ -1,5 +1,5 @@
 package com.anapedra.comercebackend.dtos;
-
+/*
 import com.anapedra.comercebackend.entities.Phone;
 import com.anapedra.comercebackend.entities.enums.TypePhone;
 
@@ -86,3 +86,5 @@ public class PhoneDTO implements Serializable {
         return Objects.hash(id);
     }
 }
+
+ */

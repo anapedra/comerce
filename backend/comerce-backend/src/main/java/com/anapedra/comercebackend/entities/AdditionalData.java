@@ -1,7 +1,7 @@
 package com.anapedra.comercebackend.entities;
 
 
-
+/*
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class AdditionalData  implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne
-    @MapsId
+    @JoinColumn(name = "userId")
     private User user;
     @OneToMany(mappedBy = "additionalData")
     private List<Phone> phones=new ArrayList<>();
@@ -76,3 +76,6 @@ public class AdditionalData  implements Serializable {
         return Objects.hash(id);
     }
 }
+
+
+ */

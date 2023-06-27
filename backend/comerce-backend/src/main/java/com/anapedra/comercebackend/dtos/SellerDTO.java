@@ -23,7 +23,7 @@ public class SellerDTO implements Serializable {
     private Double salary;
     private LocalDate hiringDate;
     private SalesTarget salesTarget;
-    private AdditionalDataDTO additionalData;
+    private Long additionalDataId;
     private String departmentDescription;
     private Double discountAbsences;
     private Double totalCommission;
@@ -36,7 +36,7 @@ public class SellerDTO implements Serializable {
     }
 
     public SellerDTO(Long id, String name, Instant momentRegistration, Instant momentUpdate, String mainPhone, String cpf, String registrationEmail,
-                     Double salary, LocalDate hiringDate, SalesTarget salesTarget, AdditionalDataDTO additionalData,
+                     Double salary, LocalDate hiringDate, SalesTarget salesTarget, Long additionalDataId,
                      String departmentDescription, Double discountAbsences, Double totalCommission, Double totalRemuneration) {
         this.id = id;
         this.name = name;
@@ -48,7 +48,7 @@ public class SellerDTO implements Serializable {
         this.salary = salary;
         this.hiringDate = hiringDate;
         this.salesTarget = salesTarget;
-        this.additionalData = additionalData;
+        this.additionalDataId=additionalDataId;
         this.departmentDescription = departmentDescription;
         this.discountAbsences = discountAbsences;
         this.totalCommission = totalCommission;
@@ -68,11 +68,8 @@ public class SellerDTO implements Serializable {
         totalCommission = entity.getCommission();
         totalRemuneration = entity.getTotalRemuneration();
         departmentDescription = entity.getDepartment().getDescription();
-        additionalData = new AdditionalDataDTO(
-                entity.getAdditionalData().getId(),
-                entity.getAdditionalData().getAddresses(),
-                entity.getAdditionalData().getEmails(),
-                entity.getAdditionalData().getPhones());
+
+
 
     }
     public SellerDTO(Employee entity, List<Absence>absences, List<ExtraHourDTO>extraHours) {
@@ -162,12 +159,12 @@ public class SellerDTO implements Serializable {
         this.salesTarget = salesTarget;
     }
 
-    public AdditionalDataDTO getAdditionalData() {
-        return additionalData;
+    public Long getAdditionalDataId() {
+        return additionalDataId;
     }
 
-    public void setAdditionalData(AdditionalDataDTO additionalData) {
-        this.additionalData = additionalData;
+    public void setAdditionalDataId(Long additionalDataId) {
+        this.additionalDataId = additionalDataId;
     }
 
     public String getDepartmentDescription() {

@@ -11,7 +11,7 @@ public class OfferProductDTO implements Serializable {
     private String offerDescription;
     private LocalDate startDate;
     private LocalDate endDate;
-    private String productShotDescription;
+    private String shortDescriptionProduct;
     private Double originalPrice;
     private Double discountOffer;
     private Double offerPrice;
@@ -21,24 +21,24 @@ public class OfferProductDTO implements Serializable {
 
     }
 
-    public OfferProductDTO(Long id, String offerDescription, LocalDate startDate, LocalDate endDate, String productShotDescription,
+    public OfferProductDTO(Long id, String offerDescription, LocalDate startDate, LocalDate endDate, String shortDescriptionProduct,
                            Double originalPrice, Double discountOffer, Double offerPrice) {
         this.id = id;
         this.offerDescription = offerDescription;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.productShotDescription = productShotDescription;
+        this.shortDescriptionProduct = shortDescriptionProduct;
         this.originalPrice = originalPrice;
         this.discountOffer = discountOffer;
         this.offerPrice = offerPrice;
     }
 
     public OfferProductDTO(OfferProduct entity){
-        id=entity.getId();
+        id=entity.getProduct().getId();
         offerDescription= entity.getOfferDescription();
         startDate=entity.getStartDate();
         endDate=entity.getEndDate();
-        productShotDescription= entity.getProduct().getShortDescription();
+        shortDescriptionProduct= entity.getProduct().getShortDescription();
         originalPrice=entity.getProduct().getInitialPrice();
         discountOffer=entity.getDiscountOffer();
         offerPrice=entity.getOfferPrice();
@@ -76,12 +76,12 @@ public class OfferProductDTO implements Serializable {
         this.endDate = endDate;
     }
 
-    public String getProductShotDescription() {
-        return productShotDescription;
+    public String getShortDescriptionProduct() {
+        return shortDescriptionProduct;
     }
 
-    public void setProductShotDescription(String productShotDescription) {
-        this.productShotDescription = productShotDescription;
+    public void setShortDescriptionProduct(String shortDescriptionProduct) {
+        this.shortDescriptionProduct = shortDescriptionProduct;
     }
 
     public Double getOriginalPrice() {
@@ -120,6 +120,4 @@ public class OfferProductDTO implements Serializable {
     public int hashCode() {
         return Objects.hash(getId());
     }
-
-
 }

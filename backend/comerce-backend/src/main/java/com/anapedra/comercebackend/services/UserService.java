@@ -1,9 +1,11 @@
 package com.anapedra.comercebackend.services;
 
 
+import com.anapedra.comercebackend.dtos.RoleDTO;
 import com.anapedra.comercebackend.dtos.UserDTO;
 import com.anapedra.comercebackend.dtos.UserInsertDTO;
 import com.anapedra.comercebackend.dtos.UserUpdateDTO;
+import com.anapedra.comercebackend.entities.Role;
 import com.anapedra.comercebackend.entities.User;
 import com.anapedra.comercebackend.repositories.RoleRepository;
 import com.anapedra.comercebackend.repositories.UserRepository;
@@ -24,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.Instant;
 import java.util.Optional;
 
 @Service
@@ -40,19 +43,21 @@ public class UserService implements UserDetailsService {
     public UserService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+
     }
 
 
     @Transactional(readOnly = true)
-    public Page<UserDTO> findAllPaged(Pageable pageable){
+    public Page<UserDTO> findAll(Pageable pageable){
         Page<User> list=userRepository.findAll(pageable);
+        authService.validateAdmin();
         return list.map(x -> new UserDTO(x));
     }
     @Transactional(readOnly = true)
     public UserDTO findById(Long id){
         Optional<User> obj=userRepository.findById(id);
-         //Object authService;
-         //authService.validateSelfOrMember(id);
+        // Object authService;
+         authService.validateSelfOrAdmin(id);
         User entity=obj.orElseThrow(
                 ()-> new ResourceNotFoundException("Id "+id+" not found"));
         return new UserDTO(entity);
@@ -67,11 +72,11 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user=userRepository.save(user);
         return new UserDTO(user);
-
-
     }
+
     @Transactional
     public UserDTO update(Long id, UserUpdateDTO userDTO){
+        authService.validSelf();
         try {
             var user= userRepository.getOne(id);
             copyDtoToEntity(userDTO,user);
@@ -81,11 +86,11 @@ public class UserService implements UserDetailsService {
         catch (EntityNotFoundException e){
             throw new ResourceNotFoundException("Id " + id + " not found :(");
         }
-
     }
+
     @Transactional
     public void deleteById(Long id){
-
+        authService.validateAdmin();
         try {
             userRepository.deleteById(id);
         }
@@ -98,18 +103,21 @@ public class UserService implements UserDetailsService {
 
     }
 
-    private void copyDtoToEntity(UserDTO userDTO,User user){
-        user.setRegistrationEmail(userDTO.getRegistrationEmail());
-      //  user.getRoles().clear();
-      /*
+    private void copyDtoToEntity(UserDTO userDTO,User entity){
+        entity.setRegistrationEmail(userDTO.getRegistrationEmail());
+        entity.setCpf(userDTO.getCpf());
+        entity.setMainPhone(userDTO.getMainPhone());
+        entity.setMomentRegistration(Instant.now());
+        entity.setMomentUpdate(Instant.now());
+        entity.setRegistrationEmail(userDTO.getRegistrationEmail());
+        entity.setName(userDTO.getName());
+
+
+        entity.getRoles().clear();
         for (RoleDTO roleDTO : userDTO.getRoles()){
             Role role=roleRepository.getOne(roleDTO.getId());
-            user.getRoles().add(role);
+            entity.getRoles().add(role);
         }
-
-       */
-
-
 
     }
 
@@ -124,10 +132,9 @@ public class UserService implements UserDetailsService {
         return  user;
     }
 
-
-
-
 }
+
+
 
 
 

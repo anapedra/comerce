@@ -18,7 +18,7 @@ public class UserClientDTO implements Serializable {
     private String mainPhone;
     private String cpf;
     private String registrationEmail;
-    private AdditionalDataDTO additionalData;
+    private Long additionalDataId;
     private List<OrderDTO> orders=new ArrayList<>();
 
 
@@ -27,7 +27,7 @@ public class UserClientDTO implements Serializable {
     }
 
     public UserClientDTO(Long id, String name, Instant momentRegistration, Instant momentUpdate, String mainPhone,
-                         String cpf, String registrationEmail, AdditionalDataDTO additionalData) {
+                         String cpf, String registrationEmail, Long additionalDataId) {
         this.id = id;
         this.name = name;
         this.momentRegistration = momentRegistration;
@@ -35,7 +35,7 @@ public class UserClientDTO implements Serializable {
         this.mainPhone = mainPhone;
         this.cpf = cpf;
         this.registrationEmail = registrationEmail;
-        this.additionalData = additionalData;
+        this.additionalDataId=additionalDataId;
     }
 
     public UserClientDTO(Employee entity) {
@@ -46,11 +46,6 @@ public class UserClientDTO implements Serializable {
       mainPhone=entity.getMainPhone();
       cpf=entity.getCpf();
       registrationEmail=entity.getRegistrationEmail();
-        additionalData = new AdditionalDataDTO(
-                entity.getAdditionalData().getId(),
-                entity.getAdditionalData().getAddresses(),
-                entity.getAdditionalData().getEmails(),
-                entity.getAdditionalData().getPhones());
 
     }
 
@@ -117,12 +112,12 @@ public class UserClientDTO implements Serializable {
         this.registrationEmail = registrationEmail;
     }
 
-    public AdditionalDataDTO getAdditionalData() {
-        return additionalData;
+    public Long getAdditionalDataId() {
+        return additionalDataId;
     }
 
-    public void setAdditionalData(AdditionalDataDTO additionalData) {
-        this.additionalData = additionalData;
+    public void setAdditionalDataId(Long additionalDataId) {
+        this.additionalDataId = additionalDataId;
     }
 
     public List<OrderDTO> getOrders() {

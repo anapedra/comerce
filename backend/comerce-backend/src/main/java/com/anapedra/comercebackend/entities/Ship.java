@@ -1,4 +1,6 @@
 package com.anapedra.comercebackend.entities;
+/*
+import org.apache.tomcat.jni.Address;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,54 +15,32 @@ public class Ship implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private  Double minAmountFreeShipSP;
-    private  Double minAmountFreeShipBRAndOutsideSP;
     private Double costShipSP;
     private Double costShiBR;
     private LocalDate expectedShipDate;
     private Double costShip;
+    @ManyToOne
+    @JoinColumn(name = "tableShipId")
+    private TableShip tableShip;
     @OneToOne
     @MapsId
     private Order order;
-    @ManyToOne
-    @JoinColumn(name = "addressShipId")
-    private Address addressShip;
 
-    public Ship(Long id, Double minAmountFreeShipSP, Double minAmountFreeShipBRAndOutsideSP, Double costShipSP,
-                Double costShiBR, LocalDate expectedShipDate, Double costShip, Order order, Address addressShip) {
+    public Ship(Long id,Double costShipSP,Double costShiBR, LocalDate expectedShipDate, Double costShip,
+                Order order,TableShip tableShip) {
         this.id = id;
-        this.minAmountFreeShipSP = minAmountFreeShipSP;
-        this.minAmountFreeShipBRAndOutsideSP = minAmountFreeShipBRAndOutsideSP;
         this.costShipSP = costShipSP;
         this.costShiBR = costShiBR;
         this.expectedShipDate = expectedShipDate;
         this.costShip = costShip;
         this.order = order;
-        this.addressShip = addressShip;
+        this.tableShip=tableShip;
     }
-
-
 
     public Ship() {
 
     }
 
-    public Double getCalcShip(){
-
-            if (addressShip.getState().equalsIgnoreCase("SP") && order.getTotal() < minAmountFreeShipSP){
-                setCostShip(costShipSP);
-            }
-            else if (!addressShip.getState().equalsIgnoreCase("SP") && order.
-                    getTotal()< minAmountFreeShipBRAndOutsideSP && addressShip.getCity().equalsIgnoreCase("BR")){
-                setCostShip(costShiBR);
-            }
-            else {
-                setCostShip(0.0);
-            }
-            return getCostShip();
-
-
-    }
 
     public Long getId() {
         return id;
@@ -70,21 +50,14 @@ public class Ship implements Serializable {
         this.id = id;
     }
 
-    public Double getMinAmountFreeShipSP() {
-        return minAmountFreeShipSP;
+    public TableShip getTableShip() {
+        return tableShip;
     }
 
-    public void setMinAmountFreeShipSP(Double minAmountFreeShipSP) {
-        this.minAmountFreeShipSP = minAmountFreeShipSP;
+    public void setTableShip(TableShip tableShip) {
+        this.tableShip = tableShip;
     }
 
-    public Double getMinAmountFreeShipBRAndOutsideSP() {
-        return minAmountFreeShipBRAndOutsideSP;
-    }
-
-    public void setMinAmountFreeShipBRAndOutsideSP(Double minAmountFreeShipBRAndOutsideSP) {
-        this.minAmountFreeShipBRAndOutsideSP = minAmountFreeShipBRAndOutsideSP;
-    }
 
     public Double getCostShipSP() {
         return costShipSP;
@@ -126,14 +99,6 @@ public class Ship implements Serializable {
         this.order = order;
     }
 
-    public Address getAddressShip() {
-        return addressShip;
-    }
-
-    public void setAddressShip(Address addressShip) {
-        this.addressShip = addressShip;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -147,3 +112,11 @@ public class Ship implements Serializable {
         return Objects.hash(id);
     }
 }
+
+ */
+
+
+
+
+
+

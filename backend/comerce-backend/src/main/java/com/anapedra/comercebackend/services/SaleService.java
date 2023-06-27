@@ -1,57 +1,51 @@
 package com.anapedra.comercebackend.services;
-/*
-import com.devsuperior.dsmeta.dto.SaleMinDTO;
-import com.devsuperior.dsmeta.entities.Sale;
-import com.devsuperior.dsmeta.repositories.SaleRepository;
-import com.devsuperior.dsmeta.repositories.SellerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
+import com.anapedra.comercebackend.dtos.ReportSaleDTO;
+import com.anapedra.comercebackend.entities.ReportSale;
+import com.anapedra.comercebackend.repositories.ReportSaleRepository;
+import com.anapedra.comercebackend.services.exceptionservice.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class SaleService {
+ private final ReportSaleRepository reportSaleRepository;
+    public SaleService(ReportSaleRepository reportSaleRepository) {
+        this.reportSaleRepository = reportSaleRepository;
+    }
 
-	@Autowired
-	private SaleRepository repository;
-	@Autowired
-	private SellerRepository sellerRepository;
-
-
-	@Transactional(readOnly = true)
-	public SaleMinDTO findById(Long id) {
-		Optional<Sale> result = repository.findById(id);
-		Sale entity = result.get();
-		return new SaleMinDTO(entity);
-	}
-     @Transactional(readOnly = true)
-	public Page<SaleDTO> findAllSale(String minDate, String maxDate,String name, Pageable pageable){
-		LocalDate today=LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
-		LocalDate min =minDate.equals("") ? today.minusDays(365) : LocalDate.parse(minDate);
-		LocalDate max=maxDate.equals("") ? today : LocalDate.parse(maxDate);
-		Page<Sale> page=repository.findAllSale(min,max,name,pageable);
-		repository.findAllSales(page.stream().collect(Collectors.toList()));
-		return page.map(SaleDTO::new);
-	}
-	@Transactional(readOnly = true)
-	public List<SaleSummaryDTO> findSummary(String minDate, String maxDate){
-		LocalDate today=LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
-		LocalDate min =minDate.equals("") ? today.minusDays(365) : LocalDate.parse(minDate);
-		LocalDate max=maxDate.equals("") ? today : LocalDate.parse(maxDate);
-		List<Sale> list=repository.findAllSummary(min,max);
-		return list.stream().map(SaleSummaryDTO::new).collect(Collectors.toList());
-	}
-
-
-
+    @Transactional(readOnly = true)
+    public List<ReportSaleDTO> findAll() {
+        List<ReportSale> list = reportSaleRepository.findAll();
+        return list.stream().map(ReportSaleDTO::new).collect(Collectors.toList());
+    }
+    @Transactional(readOnly = true)
+    public ReportSaleDTO findById(Long id){
+        Optional<ReportSale> obj=reportSaleRepository.findById(id);
+        ReportSale entity=obj.orElseThrow(
+                ()-> new ResourceNotFoundException("Id "+id+" not found"));
+        return new ReportSaleDTO(entity,entity.getOrders());
+    }
 }
 
- */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

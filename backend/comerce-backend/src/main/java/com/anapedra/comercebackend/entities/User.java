@@ -2,6 +2,7 @@ package com.anapedra.comercebackend.entities;
 
 
 
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,11 +26,12 @@ public class User implements UserDetails,Serializable {
     private Instant momentUpdate;
     private String mainPhone;
     private String cpf;
-    @Column(unique = true)
     private String registrationEmail;
     private String password;
-    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
-    private AdditionalData additionalData;
+    @ManyToOne
+    @JoinColumn(name = "address")
+    private Address address;
+
     @OneToMany(mappedBy = "client")
     private List<Order>orders=new ArrayList<>();
     @ManyToMany(fetch = FetchType.EAGER)
@@ -38,7 +40,7 @@ public class User implements UserDetails,Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles=new HashSet<>();
 
-    public User(Long id, String name, Instant momentRegistration,String mainPhone,String cpf, String registrationEmail, String password,AdditionalData additionalData) {
+    public User(Long id, String name, Instant momentRegistration,String mainPhone,String cpf, String registrationEmail, String password,Address address) {
         this.id = id;
         this.name = name;
         this.momentRegistration = momentRegistration;
@@ -46,7 +48,8 @@ public class User implements UserDetails,Serializable {
         this.cpf=cpf;
         this.registrationEmail = registrationEmail;
         this.password = password;
-        this.additionalData=additionalData;
+        this.address=address;
+
     }
 
     public User() {
@@ -61,9 +64,7 @@ public class User implements UserDetails,Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
+
 
     public void setName(String name) {
         this.name = name;
@@ -93,9 +94,6 @@ public class User implements UserDetails,Serializable {
         this.mainPhone = mainPhone;
     }
 
-    public String getCpf() {
-        return cpf;
-    }
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
@@ -119,13 +117,20 @@ public class User implements UserDetails,Serializable {
         this.password = password;
     }
 
-
-    public AdditionalData getAdditionalData() {
-        return additionalData;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setAdditionalData(AdditionalData additionalData) {
-        this.additionalData = additionalData;
+    public String getName() {
+        return name;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public List<Order> getOrders() {
@@ -174,6 +179,7 @@ public class User implements UserDetails,Serializable {
         return false;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -186,6 +192,8 @@ public class User implements UserDetails,Serializable {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+
 }
 
 
